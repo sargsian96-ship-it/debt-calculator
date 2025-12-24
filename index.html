@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор долгов | Финансовый анализ</title>
+    <meta name="description" content="Рассчитайте выгоду от реструктуризации долгов или банкротства">
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Калькулятор долгов</h1>
+            </div>
+            <p class="subtitle">Рассчитайте выгоду от финансовой реструктуризации. <br>Анализ основан на практике юриста по банкротствам.</p>
+        </header>
+
+        <!-- Информационный блок -->
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i>
+            <p>Все расчеты приблизительные. Для точного анализа вашей ситуации необходима консультация юриста.</p>
+        </div>
+
+        <!-- Таблица долгов -->
+        <section class="table-section">
+            <h2><i class="fas fa-table"></i> Ваши текущие долги</h2>
+            <div class="table-controls">
+                <button id="add-row" class="btn-secondary">
+                    <i class="fas fa-plus"></i> Добавить долг
+                </button>
+                <button id="calculate" class="btn-primary">
+                    <i class="fas fa-calculator"></i> Рассчитать выгоду
+                </button>
+            </div>
+            
+            <div class="table-wrapper">
+                <table id="debt-table">
+                    <thead>
+                        <tr>
+                            <th>Кредитор / Тип долга</th>
+                            <th>Сумма долга ₽</th>
+                            <th>Ежемес. платёж ₽</th>
+                            <th>Ставка % год.</th>
+                            <th>Остаток мес.</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Строки будут добавляться здесь -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Блок результатов -->
+        <section class="results-section" id="results" style="display: none;">
+            <h2><i class="fas fa-chart-line"></i> Результаты анализа</h2>
+            
+            <div class="results-grid">
+                <div class="result-card">
+                    <h3>Общая сумма долгов</h3>
+                    <p id="total-debt" class="result-number">0 ₽</p>
+                </div>
+                <div class="result-card">
+                    <h3>Ежемесячная нагрузка</h3>
+                    <p id="monthly-load" class="result-number">0 ₽</p>
+                </div>
+                <div class="result-card danger">
+                    <h3>Общая переплата</h3>
+                    <p id="total-overpayment" class="result-number">0 ₽</p>
+                </div>
+                <div class="result-card success">
+                    <h3>Возможная экономия*</h3>
+                    <p id="potential-saving" class="result-number">0 ₽</p>
+                </div>
+            </div>
+
+            <div class="details">
+                <h3><i class="fas fa-list-alt"></i> Детализация по кредиторам</h3>
+                <div id="details-list"></div>
+            </div>
+
+            <div class="recommendation" id="recommendation">
+                <!-- Рекомендация будет здесь -->
+            </div>
+        </section>
+
+        <!-- Кнопки действий -->
+        <section class="action-section">
+            <h2><i class="fas fa-handshake"></i> Следующие шаги</h2>
+            <p>На основе расчетов мы можем предложить:</p>
+            
+            <div class="actions-grid">
+                <div class="action-card">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Бесплатный разбор</h3>
+                    <p>15-минутная консультация по вашей ситуации</p>
+                    <button id="free-consult" class="btn-action">
+                        Записаться бесплатно
+                    </button>
+                </div>
+                
+                <div class="action-card">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>Стратегическая сессия</h3>
+                    <p>Полный анализ + план действий (60 мин)</p>
+                    <button id="paid-consult" class="btn-action">
+                        Забронировать за 15 000 ₽
+                    </button>
+                </div>
+                
+                <div class="action-card">
+                    <i class="fas fa-download"></i>
+                    <h3>Скачать отчет</h3>
+                    <p>PDF с расчетами для самостоятельного изучения</p>
+                    <button id="download-report" class="btn-action">
+                        Скачать PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <p>© 2025 Калькулятор долгов. <br>Расчеты носят информационный характер. <br>Для консультации: @ArcadConsult_bot</p>
+            <div class="footer-links">
+                <a href="https://t.me/Arcad_help" target="_blank">
+                    <i class="fab fa-telegram"></i> Наш канал
+                </a>
+                <button id="share-bot">
+                    <i class="fas fa-share-alt"></i> Поделиться ботом
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script src="script.js"></script>
+</body>
+</html>
