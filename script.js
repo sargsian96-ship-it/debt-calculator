@@ -189,20 +189,29 @@ function bookPaidConsult() {
 }
 
 function downloadReport() {
-    console.log('Download report clicked');
+    // Просто показываем текст отчёта
+    const report = generateReport();
     
-    const reportText = generateReport();
-    const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Отчет_по_долгам_' + new Date().toLocaleDateString() + '.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
-    alert('Отчет скачивается... Проверьте папку "Загрузки"');
+    // В Telegram WebApp используем alert (работает точно)
+    if (navigator.userAgent.includes('Telegram')) {
+        // Разбиваем на части, если большой
+        if (report.length > 2000) {
+            const part1 = report.substring(0, 2000);
+            const part2 = report.substring(2000, 4000);
+            alert(part1 + '\n\n... (отчёт продолжается, скопируйте полностью)');
+            // Можно показать вторую часть через setTimeout
+        } else {
+            alert(report + '\n\n📋 Держите отчёт! Скопируйте и сохраните.');
+        }
+    } else {
+        // Для браузеров — стандартное скачивание
+        const blob = new Blob([report], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'отчёт.txt';
+        a.click();
+    }
 }
 
 // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
@@ -311,4 +320,5 @@ document.addEventListener('DOMContentLoaded', function() {
     addTableRow();
     
     console.log('All buttons initialized');
+
 });
