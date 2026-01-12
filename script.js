@@ -189,22 +189,32 @@ function bookPaidConsult() {
 }
 
 function downloadReport() {
-    // Просто показываем текст отчёта
     const report = generateReport();
     
-    // В Telegram WebApp используем alert (работает точно)
-    if (navigator.userAgent.includes('Telegram')) {
-        // Разбиваем на части, если большой
-        if (report.length > 2000) {
-            const part1 = report.substring(0, 2000);
-            const part2 = report.substring(2000, 4000);
-            alert(part1 + '\n\n... (отчёт продолжается, скопируйте полностью)');
-            // Можно показать вторую часть через setTimeout
-        } else {
-            alert(report + '\n\n📋 Держите отчёт! Скопируйте и сохраните.');
-        }
+    // Проверяем, в Telegram ли мы
+    const isTelegram = navigator.userAgent.includes('Telegram');
+    
+    if (isTelegram) {
+        // Показываем отчёт в окне
+        const win = window.open('', '_blank');
+        win.document.write(`
+            <html>
+            <head><title>Отчёт</title></head>
+            <body style="padding:20px;font-family:Arial;">
+                <h2>📊 Ваш отчёт</h2>
+                <pre style="background:#f5f5f5;padding:15px;border-radius:10px;">${report}</pre>
+                <p><strong>💡 Как сохранить:</strong></p>
+                <ol>
+                    <li>Выделите текст выше</li>
+                    <li>Скопируйте (Ctrl+C или долгое нажатие)</li>
+                    <li>Отправьте себе в Telegram</li>
+                    <li>Сохраните сообщение</li>
+                </ol>
+            </body>
+            </html>
+        `);
     } else {
-        // Для браузеров — стандартное скачивание
+        // Для браузеров — скачивание
         const blob = new Blob([report], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -322,3 +332,4 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('All buttons initialized');
 
 });
+
