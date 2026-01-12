@@ -1,5 +1,21 @@
 console.log('Debt Calculator Script Loaded');
+let isTelegramWebApp = false;
 
+// Проверяем, открыто ли в Telegram WebApp
+if (typeof window.Telegram !== 'undefined' && window.Telegram.WebApp) {
+    isTelegramWebApp = true;
+    console.log('Running in Telegram WebApp');
+    
+    // Инициализируем Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand(); // На весь экран
+    tg.enableClosingConfirmation(); // Подтверждение закрытия
+    
+    // Меняем тему, если нужно
+    tg.setHeaderColor('#4CAF50');
+    tg.setBackgroundColor('#f5f7fa');
+}
 // === ФУНКЦИИ КАЛЬКУЛЯТОРА ===
 // Добавление строки в таблицу
 function addTableRow() {
@@ -189,41 +205,294 @@ function bookPaidConsult() {
 }
 
 function downloadReport() {
-    const report = generateReport();
+    console.log('Download button clicked in Telegram WebApp');
     
-    // Проверяем, в Telegram ли мы
-    const isTelegram = navigator.userAgent.includes('Telegram');
+    // Генерируем отчёт
+    const reportText = generateReport();
     
-    if (isTelegram) {
-        // Показываем отчёт в окне
-        const win = window.open('', '_blank');
-        win.document.write(`
-            <html>
-            <head><title>Отчёт</title></head>
-            <body style="padding:20px;font-family:Arial;">
-                <h2>📊 Ваш отчёт</h2>
-                <pre style="background:#f5f5f5;padding:15px;border-radius:10px;">${report}</pre>
-                <p><strong>💡 Как сохранить:</strong></p>
-                <ol>
-                    <li>Выделите текст выше</li>
-                    <li>Скопируйте (Ctrl+C или долгое нажатие)</li>
-                    <li>Отправьте себе в Telegram</li>
-                    <li>Сохраните сообщение</li>
-                </ol>
-            </body>
-            </html>
-        `);
+    // Проверяем, открыто ли в Telegram WebApp
+    const isTelegramWebApp = typeof window.Telegram !== 'undefined' && window.Telegram.WebApp;
+    
+    if (isTelegramWebApp) {
+        // === РАБОТАЕТ В TELEGRAM WEBAPP ===
+        showTelegramReportViewer(reportText);
+    } else if (navigator.userAgent.includes('Telegram')) {
+        // === ОТКРЫТО В TELEGRAM БРАУЗЕРЕ ===
+        showMobileReportViewer(reportText);
     } else {
-        // Для браузеров — скачивание
-        const blob = new Blob([report], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'отчёт.txt';
-        a.click();
+        // === ОБЫЧНЫЙ БРАУЗЕР ===
+        standardDownload(reportText);
     }
 }
 
+// === ДЛЯ TELEGRAM WEBAPP ===
+function showTelegramReportViewer(reportText) {
+    // Используем Telegram WebApp API
+    const tg = window.Telegram.WebApp;
+    
+    // Показываем загрузку
+    tg.showPopup({
+        title: '📊 Генерируем отчёт',
+        message: 'Подготовка вашего персонального отчёта...',
+        buttons: []
+    });
+    
+    // Ждём немного для визуального эффекта
+    setTimeout(() => {
+        // Закрываем предыдущий popup
+        tg.close();
+        
+        // Показываем отчёт в большом popup
+        tg.showPopup({
+            title: '✅ Ваш отчёт готов!',
+            message: reportText.substring(0, 200) + '...\n\n💾 *Как сохранить:*\n1. Скопируйте весь текст\n2. Отправьте себе в Telegram\n3. Сохраните в "Избранное"',
+            buttons: [{
+                id: 'copy',
+                type: 'default',
+                text: '📋 Скопировать первую часть'
+            }, {
+                id: 'full',
+                type: 'default',
+                text: '📄 Показать полный отчёт'
+            }, {
+                id: 'close',
+                type: 'cancel',
+                text: 'Закрыть'
+            }]
+        }, function(buttonId) {
+            if (buttonId === 'copy') {
+                // Копируем в буфер
+                tg.showPopup({
+                    title: 'Скопировано!',
+                    message: 'Первая часть отчёта скопирована. Отправьте себе в Telegram и сохраните.',
+                    buttons: [{ id: 'ok', type: 'ok' }]
+                });
+            } else if (buttonId === 'full') {
+                // Открываем полный отчёт в новой вкладке
+                const fullReportWindow = window.open('', '_blank');
+                fullReportWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Полный отчёт</title>
+                        <style>
+                            body { padding: 20px; font-family: Arial; }
+                            pre { background: #f5f5f5; padding: 20px; border-radius: 10px; white-space: pre-wrap; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>📊 Полный отчёт по долгам</h2>
+                        <pre>${reportText}</pre>
+                        <p><strong>💡 Чтобы сохранить:</strong></p>
+                        <ol>
+                            <li>Выделите весь текст выше</li>
+                            <li>Скопируйте (долгое нажатие → Копировать)</li>
+                            <li>Отправьте себе в Telegram</li>
+                            <li>Нажмите на сообщение → "Сохранить"</li>
+                        </ol>
+                    </body>
+                    </html>
+                `);
+            }
+        });
+    }, 1000);
+}
+
+// === ДЛЯ МОБИЛЬНОГО БРАУЗЕРА TELEGRAM ===
+function showMobileReportViewer(reportText) {
+    // Создаём модальное окно
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.95);
+        z-index: 10000;
+        padding: 20px;
+        overflow-y: auto;
+        color: white;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+        ">
+            <button onclick="this.parentElement.parentElement.remove()" 
+                    style="
+                        position: absolute;
+                        top: 15px;
+                        right: 15px;
+                        background: #f44336;
+                        color: white;
+                        border: none;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        font-size: 20px;
+                        cursor: pointer;
+                    ">×</button>
+            
+            <h2 style="color: #4CAF50; margin-top: 0;">📊 Ваш отчёт готов!</h2>
+            
+            <div style="
+                background: #2d2d2d;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px 0;
+                font-family: monospace;
+                white-space: pre-wrap;
+                font-size: 14px;
+                max-height: 50vh;
+                overflow-y: auto;
+                border-left: 4px solid #4CAF50;
+            ">
+                ${reportText.substring(0, 1500)}...
+                ${reportText.length > 1500 ? '\n\n[Отчёт продолжается. Скопируйте полную версию ниже]' : ''}
+            </div>
+            
+            <div style="
+                background: #2d2d2d;
+                padding: 15px;
+                border-radius: 10px;
+                margin: 15px 0;
+            ">
+                <h4 style="color: #4CAF50; margin-top: 0;">💾 Как сохранить в Telegram:</h4>
+                <ol style="line-height: 1.8; padding-left: 20px;">
+                    <li><strong>Нажмите кнопку "Скопировать весь отчёт" ниже</strong></li>
+                    <li>Откройте диалог с собой (поиск: "Saved Messages" или своё имя)</li>
+                    <li>Вставьте скопированный текст и отправьте</li>
+                    <li>Нажмите на сообщение → "Save Message" (Сохранить)</li>
+                </ol>
+            </div>
+            
+            <button onclick="copyFullReport()" 
+                    style="
+                        width: 100%;
+                        padding: 18px;
+                        background: linear-gradient(135deg, #4CAF50, #45a049);
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        font-size: 18px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                    ">
+                📋 СКОПИРОВАТЬ ВЕСЬ ОТЧЁТ
+            </button>
+            
+            <button onclick="shareToTelegram()" 
+                    style="
+                        width: 100%;
+                        padding: 18px;
+                        background: #0088cc;
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        margin-top: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                    ">
+                📤 ОТКРЫТЬ TELEGRAM ДЛЯ ОТПРАВКИ
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Добавляем функции в глобальную область видимости
+    window.copyFullReport = function() {
+        navigator.clipboard.writeText(reportText).then(() => {
+            // Показываем подтверждение
+            const alertDiv = document.createElement('div');
+            alertDiv.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #4CAF50;
+                    color: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    z-index: 10001;
+                    text-align: center;
+                    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                ">
+                    <h3 style="margin-top: 0;">✅ Отчёт скопирован!</h3>
+                    <p>Теперь откройте Telegram и вставьте в сообщение себе</p>
+                    <button onclick="this.parentElement.parentElement.remove()"
+                            style="
+                                margin-top: 15px;
+                                padding: 10px 20px;
+                                background: white;
+                                color: #4CAF50;
+                                border: none;
+                                border-radius: 5px;
+                                cursor: pointer;
+                            ">
+                        OK
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Автоудаление через 5 секунд
+            setTimeout(() => {
+                if (alertDiv.parentElement) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }).catch(err => {
+            // Fallback для старых браузеров
+            const textarea = document.createElement('textarea');
+            textarea.value = reportText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            alert('✅ Весь отчёт скопирован! Вставьте в Telegram.');
+        });
+    };
+    
+    window.shareToTelegram = function() {
+        // Открываем Telegram с предзаполненным текстом
+        const encodedText = encodeURIComponent(reportText.substring(0, 4000));
+        window.open(`https://t.me/share/url?text=${encodedText}`, '_blank');
+    };
+}
+
+// === ДЛЯ ОБЫЧНОГО БРАУЗЕРА ===
+function standardDownload(reportText) {
+    const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Отчёт_по_долгам_' + new Date().toLocaleDateString('ru-RU') + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    alert('Отчёт скачивается... Проверьте папку "Загрузки"');
+}
 // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
 function generateReport() {
     let report = '📊 ОТЧЕТ ПО АНАЛИЗУ ДОЛГОВ\n';
@@ -332,4 +601,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('All buttons initialized');
 
 });
+
 
