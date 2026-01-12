@@ -1,4 +1,304 @@
 console.log('Debt Calculator Script Loaded');
+// ==================== СИСТЕМА АНАЛИТИКИ КАЛЬКУЛЯТОРА ====================
+console.log('=== АНАЛИТИКА КАЛЬКУЛЯТОРА ===');
+console.log('Запущено:', new Date().toLocaleString('ru-RU'));
+
+// Глобальный объект для статистики
+window.calculatorAnalytics = {
+    // Основные метрики
+    visits: 0,
+    calculations: 0,
+    consultationsClicked: 0,
+    reportsGenerated: 0,
+    
+    // Ежедневная статистика
+    dailyStats: {},
+    
+    // Информация о запуске
+    startedAt: new Date().toISOString(),
+    lastUpdated: null,
+    
+    // Информация об устройстве/источнике
+    deviceInfo: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        screen: `${window.screen.width}x${window.screen.height}`,
+        language: navigator.language
+    },
+    
+    // UTM-метки
+    utmParams: {}
+};
+
+// ==================== ФУНКЦИИ ====================
+
+// Загрузка сохранённой статистики
+function loadAnalytics() {
+    try {
+        const saved = localStorage.getItem('calculator_analytics');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            window.calculatorAnalytics = {
+                ...window.calculatorAnalytics,
+                ...parsed,
+                // Не перезаписываем deviceInfo
+                deviceInfo: window.calculatorAnalytics.deviceInfo
+            };
+            console.log('📊 Статистика загружена из localStorage');
+        }
+    } catch (e) {
+        console.error('❌ Ошибка загрузки статистики:', e);
+    }
+}
+
+// Сохранение статистики
+function saveAnalytics() {
+    try {
+        window.calculatorAnalytics.lastUpdated = new Date().toISOString();
+        localStorage.setItem('calculator_analytics', JSON.stringify(window.calculatorAnalytics));
+        console.log('💾 Статистика сохранена');
+    } catch (e) {
+        console.error('❌ Ошибка сохранения статистики:', e);
+    }
+}
+
+// Обновление ежедневной статистики
+function updateDailyStats(action) {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    
+    if (!window.calculatorAnalytics.dailyStats[today]) {
+        window.calculatorAnalytics.dailyStats[today] = {
+            visits: 0,
+            calculations: 0,
+            consultations: 0,
+            reports: 0,
+            date: today,
+            dayOfWeek: new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
+        };
+    }
+    
+    switch(action) {
+        case 'visit':
+            window.calculatorAnalytics.dailyStats[today].visits++;
+            break;
+        case 'calculation':
+            window.calculatorAnalytics.dailyStats[today].calculations++;
+            break;
+        case 'consultation':
+            window.calculatorAnalytics.dailyStats[today].consultations++;
+            break;
+        case 'report':
+            window.calculatorAnalytics.dailyStats[today].reports++;
+            break;
+    }
+}
+
+// Извлечение UTM-параметров
+function extractUTMParams() {
+    const params = new URLSearchParams(window.location.search);
+    window.calculatorAnalytics.utmParams = {
+        source: params.get('utm_source') || 'direct',
+        medium: params.get('utm_medium') || 'none',
+        campaign: params.get('utm_campaign') || 'none',
+        content: params.get('utm_content') || 'none',
+        term: params.get('utm_term') || 'none'
+    };
+}
+
+// Отображение статистики в консоли
+function showConsoleStats() {
+    const stats = window.calculatorAnalytics;
+    
+    console.log('\n%c📊 ТЕКУЩАЯ СТАТИСТИКА КАЛЬКУЛЯТОРА', 
+        'color: white; background: linear-gradient(90deg, #4CAF50, #2196F3); padding: 5px 10px; border-radius: 3px; font-weight: bold;');
+    
+    console.log(`%c👥 Посещений: ${stats.visits}`, 'color: #4CAF50; font-weight: bold;');
+    console.log(`%c🧮 Расчётов: ${stats.calculations}`, 'color: #2196F3; font-weight: bold;');
+    console.log(`%c💬 Консультаций: ${stats.consultationsClicked}`, 'color: #FF9800; font-weight: bold;');
+    console.log(`%c📄 Отчётов: ${stats.reportsGenerated}`, 'color: #9C27B0; font-weight: bold;');
+    
+    // Конверсии
+    const visitToCalc = stats.visits > 0 ? ((stats.calculations / stats.visits) * 100).toFixed(1) : 0;
+    const calcToConsult = stats.calculations > 0 ? ((stats.consultationsClicked / stats.calculations) * 100).toFixed(1) : 0;
+    
+    console.log(`%c📈 Конверсия посещение→расчёт: ${visitToCalc}%`, 'color: #4CAF50;');
+    console.log(`%c📈 Конверсия расчёт→консультация: ${calcToConsult}%`, 'color: #2196F3;');
+    
+    // Сегодняшняя статистика
+    const today = new Date().toISOString().split('T')[0];
+    const todayStats = stats.dailyStats[today];
+    if (todayStats) {
+        console.log(`%c📅 Сегодня (${todayStats.dayOfWeek}):`, 'color: #FF9800; font-weight: bold;');
+        console.log(`   👥 Посещений: ${todayStats.visits}`);
+        console.log(`   🧮 Расчётов: ${todayStats.calculations}`);
+        console.log(`   💬 Консультаций: ${todayStats.consultations}`);
+        console.log(`   📄 Отчётов: ${todayStats.reports}`);
+    }
+    
+    // UTM параметры
+    if (stats.utmParams.source !== 'direct') {
+        console.log(`%c🎯 Источник: ${stats.utmParams.source} / ${stats.utmParams.campaign}`, 'color: #9C27B0;');
+    }
+    
+    console.log(`%c⏱️ Сбор данных с: ${new Date(stats.startedAt).toLocaleString('ru-RU')}`, 'color: #607D8B; font-size: 12px;');
+    console.log(`%c🔄 Последнее обновление: ${stats.lastUpdated ? new Date(stats.lastUpdated).toLocaleTimeString('ru-RU') : 'только что'}`, 'color: #607D8B; font-size: 12px;');
+}
+
+// Сброс статистики (только для разработки)
+function resetAnalytics() {
+    if (confirm('Очистить ВСЮ статистику калькулятора? Это действие необратимо.')) {
+        localStorage.removeItem('calculator_analytics');
+        window.calculatorAnalytics = {
+            visits: 0,
+            calculations: 0,
+            consultationsClicked: 0,
+            reportsGenerated: 0,
+            dailyStats: {},
+            startedAt: new Date().toISOString(),
+            lastUpdated: null,
+            deviceInfo: window.calculatorAnalytics.deviceInfo,
+            utmParams: window.calculatorAnalytics.utmParams
+        };
+        console.log('🗑️ Статистика сброшена');
+        showConsoleStats();
+    }
+}
+
+// Экспорт статистики в JSON
+function exportAnalytics() {
+    const dataStr = JSON.stringify(window.calculatorAnalytics, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `статистика_калькулятора_${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    console.log('💾 Статистика экспортирована в JSON');
+}
+
+// ==================== ОТСЛЕЖИВАНИЕ СОБЫТИЙ ====================
+
+// Трекер посещений
+function trackVisit() {
+    window.calculatorAnalytics.visits++;
+    updateDailyStats('visit');
+    saveAnalytics();
+    console.log('📍 Новое посещение калькулятора');
+}
+
+// Трекер расчётов
+function trackCalculation() {
+    window.calculatorAnalytics.calculations++;
+    updateDailyStats('calculation');
+    saveAnalytics();
+    console.log('🧮 Выполнен новый расчёт');
+}
+
+// Трекер консультаций
+function trackConsultation() {
+    window.calculatorAnalytics.consultationsClicked++;
+    updateDailyStats('consultation');
+    saveAnalytics();
+    console.log('💬 Запрошена консультация');
+}
+
+// Трекер отчётов
+function trackReport() {
+    window.calculatorAnalytics.reportsGenerated++;
+    updateDailyStats('report');
+    saveAnalytics();
+    console.log('📄 Создан новый отчёт');
+}
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ====================
+
+// Инициализация аналитики при загрузке страницы
+function initAnalytics() {
+    console.log('🔄 Инициализация системы аналитики...');
+    
+    // 1. Загружаем сохранённые данные
+    loadAnalytics();
+    
+    // 2. Извлекаем UTM-параметры
+    extractUTMParams();
+    
+    // 3. Отслеживаем новое посещение
+    trackVisit();
+    
+    // 4. Показываем статистику в консоли
+    setTimeout(showConsoleStats, 1000);
+    
+    // 5. Обновляем статистику каждые 30 секунд (на всякий случай)
+    setInterval(saveAnalytics, 30000);
+    
+    // 6. Добавляем глобальные функции для отладки
+    window.showStats = showConsoleStats;
+    window.resetStats = resetAnalytics;
+    window.exportStats = exportAnalytics;
+    
+    console.log('✅ Система аналитики готова!');
+    console.log('💡 Доступные команды: showStats(), resetStats(), exportStats()');
+}
+
+// ==================== ИНТЕГРАЦИЯ С СУЩЕСТВУЮЩИМ КОДОМ ====================
+
+// Обернём существующие функции для отслеживания
+
+// Обёртка для функции calculateAll()
+const originalCalculateAll = window.calculateAll || function() { console.log('Функция calculateAll не найдена'); };
+window.calculateAll = function() {
+    const result = originalCalculateAll.apply(this, arguments);
+    trackCalculation();
+    return result;
+};
+
+// Обёртка для функции bookFreeConsult()
+const originalBookFreeConsult = window.bookFreeConsult || function() { console.log('Функция bookFreeConsult не найдена'); };
+window.bookFreeConsult = function() {
+    const result = originalBookFreeConsult.apply(this, arguments);
+    trackConsultation();
+    return result;
+};
+
+// Обёртка для функции bookPaidConsult()
+const originalBookPaidConsult = window.bookPaidConsult || function() { console.log('Функция bookPaidConsult не найдена'); };
+window.bookPaidConsult = function() {
+    const result = originalBookPaidConsult.apply(this, arguments);
+    trackConsultation();
+    return result;
+};
+
+// Обёртка для функции downloadReport()
+const originalDownloadReport = window.downloadReport || function() { console.log('Функция downloadReport не найдена'); };
+window.downloadReport = function() {
+    const result = originalDownloadReport.apply(this, arguments);
+    trackReport();
+    return result;
+};
+
+// ==================== ЗАПУСК ====================
+
+// Запускаем аналитику при полной загрузке DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnalytics);
+} else {
+    initAnalytics();
+}
+
+// Экспорт для использования в других файлах
+window.calculatorAnalyticsAPI = {
+    trackVisit,
+    trackCalculation,
+    trackConsultation,
+    trackReport,
+    showStats: showConsoleStats,
+    resetStats: resetAnalytics,
+    exportStats: exportAnalytics,
+    getStats: () => window.calculatorAnalytics
+};
 let isTelegramWebApp = false;
 
 // Проверяем, открыто ли в Telegram WebApp
@@ -321,6 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('All buttons initialized');
 
 });
+
 
 
 
