@@ -3,48 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор долгов | Финансовый анализ</title>
-    <meta name="description" content="Рассчитайте выгоду от реструктуризации долгов или банкротства">
-    <!-- Подключаем стили -->
+    <title>Калькулятор долгов | Аркада - помощь с банкротством</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-calculator"></i>
-                <h1>Калькулятор долгов</h1>
+        <!-- Заголовок -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1><i class="fas fa-calculator"></i> Калькулятор долгов</h1>
+                <p class="subtitle">Рассчитайте выгоду от финансовой реструктуризации. Анализ основан на практике юриста по банкротствам.</p>
             </div>
-            <p class="subtitle">Рассчитайте выгоду от финансовой реструктуризации. <br>Анализ основан на практике юриста по банкротствам.</p>
         </header>
 
-        <!-- Информационный блок -->
-        <div class="info-box">
-            <i class="fas fa-info-circle"></i>
+        <!-- Дисклеймер -->
+        <div class="disclaimer-box">
+            <i class="fas fa-exclamation-circle"></i>
             <p>Все расчеты приблизительные. Для точного анализа вашей ситуации необходима консультация юриста.</p>
         </div>
 
-        <!-- Таблица долгов -->
-        <section class="table-section">
-            <h2><i class="fas fa-table"></i> Ваши текущие долги</h2>
-            <div class="table-controls">
-                <button id="add-row" class="btn-secondary">
-                    <i class="fas fa-plus"></i> Добавить долг
-                </button>
-                <button id="calculate" class="btn-primary">
-                    <i class="fas fa-calculator"></i> Рассчитать выгоду
-                </button>
+        <!-- Основной блок калькулятора -->
+        <main class="calculator-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Ваши текущие долги</h2>
+                <p class="section-description">Добавьте все ваши кредиты и займы для расчета</p>
             </div>
-            
-            <div class="table-wrapper">
-                <table id="debt-table">
+
+            <!-- Форма добавления долга -->
+            <div class="debt-input-form">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="creditor"><i class="fas fa-building"></i> Кредитор / Тип долга</label>
+                        <input type="text" id="creditor" placeholder="Сбербанк, кредитная карта">
+                    </div>
+                    <div class="input-group">
+                        <label for="amount"><i class="fas fa-ruble-sign"></i> Сумма долга ₽</label>
+                        <input type="number" id="amount" placeholder="200000">
+                    </div>
+                    <div class="input-group">
+                        <label for="monthly"><i class="fas fa-calendar-alt"></i> Ежемес. платёж ₽</label>
+                        <input type="number" id="monthly" placeholder="15000">
+                    </div>
+                    <div class="input-group">
+                        <label for="rate"><i class="fas fa-percentage"></i> Ставка % год.</label>
+                        <input type="number" id="rate" placeholder="20">
+                    </div>
+                    <div class="input-group">
+                        <label for="months"><i class="fas fa-clock"></i> Остаток мес.</label>
+                        <input type="number" id="months" placeholder="24">
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button class="btn btn-add" id="addDebtBtn">
+                        <i class="fas fa-plus-circle"></i> Добавить долг
+                    </button>
+                    <button class="btn btn-calculate" id="calculateBtn">
+                        <i class="fas fa-chart-line"></i> Рассчитать выгоду
+                    </button>
+                </div>
+            </div>
+
+            <!-- Таблица долгов -->
+            <div class="debt-table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-list"></i> Добавленные долги</h3>
+                    <div class="total-summary">
+                        <div class="summary-item">
+                            <span class="label">Всего долгов:</span>
+                            <span class="value" id="totalDebt">0 ₽</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Ежемесячный платеж:</span>
+                            <span class="value" id="totalMonthly">0 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="debt-table" id="debtTable">
                     <thead>
                         <tr>
                             <th>Кредитор / Тип долга</th>
@@ -55,219 +92,179 @@
                             <th>Действие</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        <!-- Строки будут добавляться здесь -->
+                    <tbody id="debtTableBody">
+                        <!-- Долги добавляются сюда -->
                     </tbody>
                 </table>
+                
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-inbox"></i>
+                    <p>Добавьте первый долг для расчета</p>
+                </div>
             </div>
-        </section>
 
-        <!-- Блок результатов -->
-        <section class="results-section" id="results" style="display: none;">
-            <h2><i class="fas fa-chart-line"></i> Результаты анализа</h2>
+            <!-- Результаты расчета -->
+            <div class="results-section" id="resultsSection">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-pie"></i> Результаты расчета</h2>
+                    <p class="results-subtitle">Ваша потенциальная выгода от реструктуризации</p>
+                </div>
+
+                <div class="results-grid" id="resultsGrid">
+                    <div class="result-card">
+                        <div class="result-icon" style="background: #e3f2fd;">
+                            <i class="fas fa-money-bill-wave" style="color: #1976d2;"></i>
+                        </div>
+                        <h3>Общая сумма долгов</h3>
+                        <div class="result-value" id="resultTotalDebt">0 ₽</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon" style="background: #f3e5f5;">
+                            <i class="fas fa-calendar-check" style="color: #7b1fa2;"></i>
+                        </div>
+                        <h3>Ежемесячный платеж</h3>
+                        <div class="result-value" id="resultMonthly">0 ₽</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-icon" style="background: #fff3e0;">
+                            <i class="fas fa-chart-line" style="color: #f57c00;"></i>
+                        </div>
+                        <h3>Переплата за весь срок</h3>
+                        <div class="result-value" id="resultOverpayment">0 ₽</div>
+                    </div>
+                    <div class="result-card highlight">
+                        <div class="result-icon" style="background: #e8f5e9;">
+                            <i class="fas fa-piggy-bank" style="color: #388e3c;"></i>
+                        </div>
+                        <h3>Возможная экономия</h3>
+                        <div class="result-value" id="resultSavings">0 ₽</div>
+                        <p class="result-note">при реструктуризации долгов</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Предложения -->
+            <div class="offers-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-forward"></i> Следующие шаги</h2>
+                    <p class="section-description">На основе расчетов мы можем предложить:</p>
+                </div>
+
+                <div class="offers-grid">
+                    <div class="offer-card free">
+                        <div class="offer-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Бесплатный разбор</h3>
+                        <p class="offer-description">15-минутная консультация по вашей ситуации с юристом по банкротству</p>
+                        <div class="offer-price">Бесплатно</div>
+                        <button class="offer-btn btn-primary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
+                            <i class="fab fa-telegram"></i> Записаться бесплатно
+                        </button>
+                    </div>
+
+                    <div class="offer-card premium">
+                        <div class="offer-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>Стратегическая сессия</h3>
+                        <p class="offer-description">Полный анализ + план действий (60 минут) с детальным разбором</p>
+                        <div class="offer-price">5 000 ₽</div>
+                        <button class="offer-btn btn-secondary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
+                            <i class="fas fa-calendar-check"></i> Забронировать
+                        </button>
+                    </div>
+
+                    <div class="offer-card report">
+                        <div class="offer-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>Скачать отчет</h3>
+                        <p class="offer-description">PDF с расчетами для самостоятельного изучения и показа юристу</p>
+                        <button class="offer-btn btn-tertiary" id="downloadReportBtn">
+                            <i class="fas fa-download"></i> Получить Отчет
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Подвал -->
+        <footer class="unified-footer">
+            <div class="footer-grid">
+                <div class="footer-column trust">
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="trust-text">
+                            <strong>Конфиденциально:</strong> ваши данные не сохраняются на сервере
+                        </div>
+                    </div>
+                    
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="trust-text">
+                            <strong>Бесплатный вопрос юристу:</strong> 
+                            <a href="https://t.me/ArcadConsult_bot" class="telegram-link" target="_blank">
+                                @ArcadConsult_bot
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="success-stats">
+                        <div class="stats-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stats-content">
+                            <p class="highlight">На основе 1500+ успешных дел о банкротстве</p>
+                            <p class="team-name">Команда юристов «Аркада»</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-column actions">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <h4>Наш полезный канал</h4>
+                        <p>Актуальные новости, кейсы и инструкции по списанию долгов</p>
+                        <a href="https://t.me/Arcad_help" class="action-btn telegram" target="_blank">
+                            <i class="fab fa-telegram"></i> Перейти в канал
+                        </a>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h4>Поделиться ботом</h4>
+                        <p>Помогите друзьям узнать о своих возможностях по списанию долгов</p>
+                        <a href="https://t.me/share/url?url=https://t.me/ArcadConsult_bot&text=Бесплатный калькулятор долгов от юристов по банкротству - рассчитай свою выгоду!" 
+                           class="action-btn share" target="_blank">
+                            <i class="fas fa-share-alt"></i> Поделиться в Telegram
+                        </a>
+                    </div>
+                </div>
+            </div>
             
-            <div class="results-grid">
-                <div class="result-card">
-                    <h3>Общая сумма долгов</h3>
-                    <p id="total-debt" class="result-number">0 ₽</p>
+            <div class="footer-base">
+                <div class="copyright">
+                    <p><i class="far fa-copyright"></i> 2025 Калькулятор долгов. Все права защищены.</p>
+                    <p class="disclaimer">Расчеты носят информационный характер. Для точного анализа требуется консультация юриста.</p>
                 </div>
-                <div class="result-card">
-                    <h3>Ежемесячная нагрузка</h3>
-                    <p id="monthly-load" class="result-number">0 ₽</p>
-                </div>
-                <div class="result-card danger">
-                    <h3>Общая переплата</h3>
-                    <p id="total-overpayment" class="result-number">0 ₽</p>
-                </div>
-                <div class="result-card success">
-                    <h3>Возможная экономия*</h3>
-                    <p id="potential-saving" class="result-number">0 ₽</p>
+                <div class="footer-links">
+                    <a href="https://t.me/ArcadConsult_bot" target="_blank">Телеграм-бот</a>
+                    <a href="https://t.me/Arcad_help" target="_blank">Канал</a>
+                    <a href="#" onclick="alert('Политика конфиденциальности доступна по запросу в боте @ArcadConsult_bot')">Конфиденциальность</a>
                 </div>
             </div>
-
-            <div class="details">
-                <h3><i class="fas fa-list-alt"></i> Детализация по кредиторам</h3>
-                <div id="details-list"></div>
-            </div>
-
-            <div class="recommendation" id="recommendation">
-                <!-- Рекомендация будет здесь -->
-            </div>
-        </section>
-
-        <!-- Кнопки действий -->
-        <section class="action-section">
-            <h2><i class="fas fa-handshake"></i> <!-- Таблица долгов -->
-<div class="debt-section">
-  <h2 class="section-title">📊 Ваши текущие долги</h2>
-  
-  <!-- Форма добавления долга -->
-  <div class="debt-form" id="debtForm">
-    <div class="input-row">
-      <div class="input-group">
-        <label for="creditor">Кредитор / Тип долга</label>
-        <input type="text" id="creditor" placeholder="Например: Сбербанк, кредитная карта">
-      </div>
-      <div class="input-group">
-        <label for="amount">Сумма долга ₽</label>
-        <input type="number" id="amount" placeholder="200000">
-      </div>
-      <div class="input-group">
-        <label for="monthly">Ежемес. платёж ₽</label>
-        <input type="number" id="monthly" placeholder="15000">
-      </div>
-      <div class="input-group">
-        <label for="rate">Ставка % год.</label>
-        <input type="number" id="rate" placeholder="20">
-      </div>
-      <div class="input-group">
-        <label for="months">Остаток мес.</label>
-        <input type="number" id="months" placeholder="24">
-      </div>
+        </footer>
     </div>
-    
-    <div class="form-actions">
-      <button type="button" class="btn btn-primary" id="addDebtBtn">
-        <span>+</span> Добавить долг
-      </button>
-      <button type="button" class="btn btn-secondary" id="calculateBtn">
-        📈 Рассчитать выгоду
-      </button>
-    </div>
-  </div>
-  
-  <!-- Таблица добавленных долгов -->
-  <div class="debts-table-container">
-    <table class="debts-table" id="debtsTable">
-      <thead>
-        <tr>
-          <th>Кредитор / Тип долга</th>
-          <th>Сумма долга ₽</th>
-          <th>Ежемес. платёж ₽</th>
-          <th>Ставка % год.</th>
-          <th>Остаток мес.</th>
-          <th>Действие</th>
-        </tr>
-      </thead>
-      <tbody id="debtsTableBody">
-        <!-- Сюда будут добавляться долги -->
-      </tbody>
-    </table>
-  </div>
-</div>
 
-<!-- Блок с результатами (изначально скрыт) -->
-<div class="results-section" id="resultsSection" style="display: none;">
-  <div class="results-header">
-    <h2>📊 Результаты расчета</h2>
-  </div>
-  <div class="results-content" id="resultsContent">
-    <!-- Результаты появятся здесь -->
-  </div>
-</div>
-
-<!-- Следующие шаги -->
-<div class="offers-section">
-  <h2 class="section-title">🎯 Следующие шаги</h2>
-  <p>На основе расчетов мы можем предложить:</p>
-  
-  <div class="offers-grid">
-    <div class="offer-card free">
-      <div class="offer-icon">🆓</div>
-      <h3>Бесплатный разбор</h3>
-      <p class="offer-description">15-минутная консультация по вашей ситуации</p>
-      <button class="offer-cta btn-primary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
-        Записаться бесплатно
-      </button>
-    </div>
-    
-    <div class="offer-card premium">
-      <div class="offer-icon">⭐</div>
-      <h3>Стратегическая сессия</h3>
-      <p class="offer-description">Полный анализ + план действий (60 мин)</p>
-      <div class="offer-price">5 000 ₽</div>
-      <button class="offer-cta btn-secondary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
-        Забронировать
-      </button>
-    </div>
-    
-    <div class="offer-card report">
-      <div class="offer-icon">📄</div>
-      <h3>Скачать отчет</h3>
-      <p class="offer-description">PDF с расчетами для самостоятельного изучения</p>
-      <button class="offer-cta btn-secondary" id="downloadReportBtn">
-        Получить Отчет
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ПОДВАЛ (вставьте сюда код unified-footer из предыдущего шага) -->
-    
-    <!-- НАЧАЛО ПОДВАЛА (Вариант 1) -->
-    <div class="footer-trust">
-      <div class="trust-badges">
-        <div class="trust-item">
-          <span class="trust-icon">🔐</span>
-          <span class="trust-text"><!-- ЕДИНЫЙ ПРОФЕССИОНАЛЬНЫЙ ПОДВАЛ -->
-<div class="unified-footer">
-  
-  <!-- Верхняя часть: доверие и действия -->
-  <div class="footer-grid">
-    
-    <!-- Левый столбец: доверие -->
-    <div class="footer-column trust">
-      <div class="trust-item">
-        <span class="trust-icon">🔐</span>
-        <span class="trust-text">Конфиденциально: ваши данные не сохраняются</span>
-      </div>
-      
-      <div class="trust-item">
-        <span class="trust-icon">📞</span>
-        <span class="trust-text">Бесплатный вопрос юристу: 
-          <a href="https://t.me/ArcadConsult_bot" class="telegram-link" target="_blank">@ArcadConsult_bot</a>
-        </span>
-      </div>
-      
-      <div class="success-stats">
-        <p class="stats-text">
-          <span class="highlight">На основе 1500+ успешных дел о банкротстве</span><br>
-          <span class="team-name">Команда юристов «Аркада»</span>
-        </p>
-      </div>
-    </div>
-    
-    <!-- Правый столбец: действия -->
-    <div class="footer-column actions">
-      <div class="action-card">
-        <h4>📢 Наш полезный канал</h4>
-        <p>Актуальные новости, кейсы и инструкции по списанию долгов</p>
-        <a href="https://t.me/Arcad_help" class="action-btn telegram" target="_blank">
-          Перейти в канал
-        </a>
-      </div>
-      
-      <div class="action-card">
-        <h4>🔗 Поделиться ботом</h4>
-        <p>Помогите друзьям узнать о своих возможностях по списанию долгов</p>
-        <a href="https://t.me/share/url?url=https://t.me/ArcadConsult_bot&text=Бесплатный%20калькулятор%20долгов%20от%20юристов%20по%20банкротству" 
-           class="action-btn share" target="_blank">
-          Поделиться в Telegram
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Нижняя часть: копирайт -->
-  <div class="footer-base">
-    <p>© 2025 Калькулятор долгов.</p>
-    <p class="disclaimer">Расчеты носят информационный характер. Для точного анализа требуется консультация юриста.</p>
-  </div>
-</div>
-
-
-
-
-
-
-
+    <script src="script.js"></script>
+</body>
+</html>
