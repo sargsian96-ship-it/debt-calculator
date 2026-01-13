@@ -97,42 +97,112 @@
 
         <!-- Кнопки действий -->
         <section class="action-section">
-            <h2><i class="fas fa-handshake"></i> Следующие шаги</h2>
-            <p>На основе расчетов мы можем предложить:</p>
-            
-            <div class="actions-grid">
-                <div class="action-card">
-                    <i class="fas fa-file-contract"></i>
-                    <h3>Бесплатный разбор</h3>
-                    <p>15-минутная консультация по вашей ситуации</p>
-                    <button id="free-consult" class="btn-action">
-                        Записаться бесплатно
-                    </button>
-                </div>
-                
-                <div class="action-card">
-                    <i class="fas fa-balance-scale"></i>
-                    <h3>Стратегическая сессия</h3>
-                    <p>Полный анализ + план действий (60 мин)</p>
-                    <button id="paid-consult" class="btn-action">
-                        Забронировать за 5 000 ₽
-                    </button>
-                </div>
-                
-                <div class="action-card">
-                    <i class="fas fa-download"></i>
-                    <h3>Скачать отчет</h3>
-                    <p>PDF с расчетами для самостоятельного изучения</p>
-                  <button id="download-report" class="btn-action">
-                       Получить Отчет
-                  </button>
-                </div>
-            </div>
-        </section>
+            <h2><i class="fas fa-handshake"></i> <!-- Таблица долгов -->
+<div class="debt-section">
+  <h2 class="section-title">📊 Ваши текущие долги</h2>
+  
+  <!-- Форма добавления долга -->
+  <div class="debt-form" id="debtForm">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="creditor">Кредитор / Тип долга</label>
+        <input type="text" id="creditor" placeholder="Например: Сбербанк, кредитная карта">
+      </div>
+      <div class="input-group">
+        <label for="amount">Сумма долга ₽</label>
+        <input type="number" id="amount" placeholder="200000">
+      </div>
+      <div class="input-group">
+        <label for="monthly">Ежемес. платёж ₽</label>
+        <input type="number" id="monthly" placeholder="15000">
+      </div>
+      <div class="input-group">
+        <label for="rate">Ставка % год.</label>
+        <input type="number" id="rate" placeholder="20">
+      </div>
+      <div class="input-group">
+        <label for="months">Остаток мес.</label>
+        <input type="number" id="months" placeholder="24">
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="button" class="btn btn-primary" id="addDebtBtn">
+        <span>+</span> Добавить долг
+      </button>
+      <button type="button" class="btn btn-secondary" id="calculateBtn">
+        📈 Рассчитать выгоду
+      </button>
+    </div>
+  </div>
+  
+  <!-- Таблица добавленных долгов -->
+  <div class="debts-table-container">
+    <table class="debts-table" id="debtsTable">
+      <thead>
+        <tr>
+          <th>Кредитор / Тип долга</th>
+          <th>Сумма долга ₽</th>
+          <th>Ежемес. платёж ₽</th>
+          <th>Ставка % год.</th>
+          <th>Остаток мес.</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody id="debtsTableBody">
+        <!-- Сюда будут добавляться долги -->
+      </tbody>
+    </table>
+  </div>
+</div>
 
-        <!-- Футер -->
-        <footer class="footer">
-            <p>  <!-- ... ваш текущий контент ... -->
+<!-- Блок с результатами (изначально скрыт) -->
+<div class="results-section" id="resultsSection" style="display: none;">
+  <div class="results-header">
+    <h2>📊 Результаты расчета</h2>
+  </div>
+  <div class="results-content" id="resultsContent">
+    <!-- Результаты появятся здесь -->
+  </div>
+</div>
+
+<!-- Следующие шаги -->
+<div class="offers-section">
+  <h2 class="section-title">🎯 Следующие шаги</h2>
+  <p>На основе расчетов мы можем предложить:</p>
+  
+  <div class="offers-grid">
+    <div class="offer-card free">
+      <div class="offer-icon">🆓</div>
+      <h3>Бесплатный разбор</h3>
+      <p class="offer-description">15-минутная консультация по вашей ситуации</p>
+      <button class="offer-cta btn-primary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
+        Записаться бесплатно
+      </button>
+    </div>
+    
+    <div class="offer-card premium">
+      <div class="offer-icon">⭐</div>
+      <h3>Стратегическая сессия</h3>
+      <p class="offer-description">Полный анализ + план действий (60 мин)</p>
+      <div class="offer-price">5 000 ₽</div>
+      <button class="offer-cta btn-secondary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
+        Забронировать
+      </button>
+    </div>
+    
+    <div class="offer-card report">
+      <div class="offer-icon">📄</div>
+      <h3>Скачать отчет</h3>
+      <p class="offer-description">PDF с расчетами для самостоятельного изучения</p>
+      <button class="offer-cta btn-secondary" id="downloadReportBtn">
+        Получить Отчет
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ПОДВАЛ (вставьте сюда код unified-footer из предыдущего шага) -->
     
     <!-- НАЧАЛО ПОДВАЛА (Вариант 1) -->
     <div class="footer-trust">
@@ -194,6 +264,7 @@
     <p class="disclaimer">Расчеты носят информационный характер. Для точного анализа требуется консультация юриста.</p>
   </div>
 </div>
+
 
 
 
