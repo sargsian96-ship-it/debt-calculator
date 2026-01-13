@@ -797,3 +797,127 @@ h2 i {
     font-size: 16px !important;
   }
 }
+/* ===== ПОДВАЛ С ЭЛЕМЕНТАМИ ДОВЕРИЯ ===== */
+.footer-trust {
+  margin-top: 60px;
+  padding: 30px;
+  background-color: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+  color: #4a5568;
+  padding: 12px 20px;
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #edf2f7;
+  transition: transform 0.2s;
+}
+
+.trust-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.trust-icon {
+  font-size: 1.5rem;
+}
+
+.telegram-link {
+  color: #0088cc;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: rgba(0, 136, 204, 0.08);
+}
+
+.telegram-link:hover {
+  text-decoration: underline;
+  background-color: rgba(0, 136, 204, 0.12);
+}
+
+.success-stats {
+  margin: 30px 0;
+  padding: 25px;
+  background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+  border-radius: 12px;
+  border-left: 5px solid #38a169;
+  box-shadow: 0 4px 8px rgba(56, 161, 105, 0.1);
+}
+
+.stats-text {
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #22543d;
+  font-size: 1.2rem;
+}
+
+.team-name {
+  font-size: 1rem;
+  color: #718096;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.footer-base {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px dashed #cbd5e0;
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.disclaimer {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  margin-top: 8px;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .footer-trust {
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  .trust-badges {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .trust-item {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .success-stats {
+    padding: 20px;
+  }
+  
+  .highlight {
+    font-size: 1.1rem;
+  }
+}
