@@ -175,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         calculateResults();
-        showMessage('📊 Расчет завершен!', 'success');
     });
     
     function calculateResults() {
@@ -205,6 +204,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (resultOverpaymentEl) resultOverpaymentEl.textContent = formatMoney(totalOverpayment);
         if (resultSavingsEl) resultSavingsEl.textContent = formatMoney(potentialSavings);
         
+        // ===== ПОКАЗЫВАЕМ ПРИЗЫВ К ДЕЙСТВИЮ =====
+        showCTA(totalMonthly, totalOverpayment);
+        
         // Прокручиваем к результатам
         const resultsSection = document.querySelector('.results-section');
         if (resultsSection) {
@@ -217,9 +219,35 @@ document.addEventListener('DOMContentLoaded', function() {
             totalOverpayment,
             potentialSavings
         });
+        
+        showMessage('📊 Расчет завершен!', 'success');
     }
     
-    // ===== 6. ФУНКЦИЯ ПОКАЗА ОТЧЕТА =====
+    // ===== 6. ФУНКЦИЯ ПОКАЗА ПРИЗЫВА К ДЕЙСТВИЮ =====
+    function showCTA(totalMonthly, totalOverpayment) {
+        const ctaSection = document.getElementById('ctaSection');
+        const ctaOverpaymentEl = document.getElementById('ctaOverpayment');
+        
+        // Обновляем цифру в CTA
+        if (ctaOverpaymentEl) {
+            ctaOverpaymentEl.textContent = formatMoney(totalMonthly);
+        }
+        
+        // Показываем CTA блок
+        ctaSection.style.display = 'block';
+        
+        // Прокручиваем к CTA
+        setTimeout(() => {
+            ctaSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }, 500);
+        
+        console.log('CTA показан с суммой:', totalMonthly);
+    }
+    
+    // ===== 7. ФУНКЦИЯ ПОКАЗА ОТЧЕТА =====
     window.showReport = function() {
         console.log('Показ отчета...');
         
@@ -248,12 +276,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showMessage('📄 Отчет сгенерирован!', 'success');
     };
     
-    // ===== 7. ФУНКЦИЯ СКРЫТИЯ ОТЧЕТА =====
+    // ===== 8. ФУНКЦИЯ СКРЫТИЯ ОТЧЕТА =====
     window.hideReport = function() {
         document.getElementById('reportSection').style.display = 'none';
     };
     
-    // ===== 8. ФУНКЦИЯ ГЕНЕРАЦИИ ОТЧЕТА =====
+    // ===== 9. ФУНКЦИЯ ГЕНЕРАЦИИ ОТЧЕТА =====
     function generateReportContent() {
         const reportContent = document.getElementById('reportContent');
         
@@ -377,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reportContent.innerHTML = html;
     }
     
-    // ===== 9. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    // ===== 10. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
     function clearForm() {
         creditorInput.value = '';
         amountInput.value = '';
@@ -441,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // ===== 10. ИНИЦИАЛИЗАЦИЯ =====
+    // ===== 11. ИНИЦИАЛИЗАЦИЯ =====
     console.log('Инициализация завершена');
     console.log('Готов к работе! Добавляйте долги.');
 });
