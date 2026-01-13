@@ -267,6 +267,7 @@ body {
     padding: 60px 20px;
     text-align: center;
     color: #a0aec0;
+    display: block;
 }
 
 .empty-state i {
@@ -350,6 +351,139 @@ body {
     font-size: 0.9rem;
     color: #718096;
     font-style: italic;
+}
+
+/* ===== БЛОК ОТЧЕТА ===== */
+.report-section {
+    background: white;
+    border-radius: 15px;
+    margin: 30px 0;
+    border: 2px solid #4299e1;
+    box-shadow: 0 10px 30px rgba(66, 153, 225, 0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.report-header {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 13px 13px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.report-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-close-report {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+
+.btn-close-report:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.report-content {
+    padding: 30px;
+    line-height: 1.6;
+}
+
+.report-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.report-label {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.report-value {
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.report-total {
+    background: #f0fff4;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 4px solid #38a169;
+}
+
+.report-note {
+    background: #fffaf0;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #744210;
+    border-left: 4px solid #d69e2e;
+    margin-top: 20px;
+}
+
+.report-actions {
+    padding: 20px 30px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-telegram {
+    background: linear-gradient(135deg, #0088cc, #006699);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-print {
+    background: linear-gradient(135deg, #718096, #4a5568);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-telegram:hover, .btn-print:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* ===== ПРЕДЛОЖЕНИЯ ===== */
@@ -717,6 +851,14 @@ body {
     .footer-links {
         flex-direction: column;
         gap: 15px;
+    }
+    
+    .report-actions {
+        flex-direction: column;
+    }
+    
+    .btn-telegram, .btn-print {
+        width: 100%;
     }
 }
 
