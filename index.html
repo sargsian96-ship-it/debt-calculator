@@ -13,7 +13,7 @@
         <header class="main-header">
             <div class="header-content">
                 <h1><i class="fas fa-calculator"></i> Калькулятор долгов</h1>
-                <p class="subtitle">Рассчитайте выгоду от финансовой реструктуризации. Анализ основан на практике юриста по банкротствам.</p>
+                <p class="subtitle">Рассчитайте выгоду от списания долгов через банкротство. Анализ основан на практике юриста по банкротствам.</p>
             </div>
         </header>
 
@@ -106,8 +106,8 @@
             <!-- Результаты расчета -->
             <div class="results-section" id="resultsSection">
                 <div class="results-header">
-                    <h2><i class="fas fa-chart-pie"></i> Результаты расчета</h2>
-                    <p class="results-subtitle">Оценка вашей выгоды от списания долгов</p>
+                    <h2><i class="fas fa-scale-balanced"></i> Расчет по банкротству</h2>
+                    <p class="results-subtitle">Сколько можно списать по закону о банкротстве</p>
                 </div>
 
                 <div class="results-grid" id="resultsGrid">
@@ -136,10 +136,33 @@
                         <div class="result-icon" style="background: #e8f5e9;">
                             <i class="fas fa-piggy-bank" style="color: #388e3c;"></i>
                         </div>
-                        <h3>Возможная экономия</h3>
+                        <h3>Возможное списание</h3>
                         <div class="result-value" id="resultSavings">0 ₽</div>
-                        <p class="result-note">при банкротстве</p>
+                        <p class="result-note">при процедуре банкротства</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Блок отчета (изначально скрыт) -->
+            <div class="report-section" id="reportSection" style="display: none;">
+                <div class="report-header">
+                    <h2><i class="fas fa-file-pdf"></i> Отчет по вашим долгам</h2>
+                    <button class="btn-close-report" onclick="hideReport()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="report-content" id="reportContent">
+                    <!-- Отчет будет здесь -->
+                </div>
+                
+                <div class="report-actions">
+                    <button class="btn btn-telegram" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
+                        <i class="fab fa-telegram"></i> Обсудить с юристом
+                    </button>
+                    <button class="btn btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Распечатать
+                    </button>
                 </div>
             </div>
 
@@ -181,8 +204,8 @@
                         </div>
                         <h3>Скачать отчет</h3>
                         <p class="offer-description">PDF с расчетами для самостоятельного изучения и показа юристу</p>
-                        <button class="offer-btn btn-tertiary" id="downloadReportBtn">
-                            <i class="fas fa-download"></i> Получить Отчет
+                        <button class="offer-btn btn-tertiary" onclick="showReport()">
+                            <i class="fas fa-download"></i> Показать отчет
                         </button>
                     </div>
                 </div>
@@ -268,4 +291,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
