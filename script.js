@@ -219,7 +219,146 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // ===== 6. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    // ===== 6. ФУНКЦИЯ ПОКАЗА ОТЧЕТА =====
+    window.showReport = function() {
+        console.log('Показ отчета...');
+        
+        if (debts.length === 0) {
+            alert('Нет данных для отчета. Сначала добавьте долги и сделайте расчет.');
+            return;
+        }
+        
+        // Рассчитываем, если еще не рассчитано
+        if (document.getElementById('resultSavings').textContent === '0 ₽') {
+            calculateResults();
+        }
+        
+        // Генерируем содержимое отчета
+        generateReportContent();
+        
+        // Показываем блок отчета
+        document.getElementById('reportSection').style.display = 'block';
+        
+        // Прокручиваем к отчету
+        document.getElementById('reportSection').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        showMessage('📄 Отчет сгенерирован!', 'success');
+    };
+    
+    // ===== 7. ФУНКЦИЯ СКРЫТИЯ ОТЧЕТА =====
+    window.hideReport = function() {
+        document.getElementById('reportSection').style.display = 'none';
+    };
+    
+    // ===== 8. ФУНКЦИЯ ГЕНЕРАЦИИ ОТЧЕТА =====
+    function generateReportContent() {
+        const reportContent = document.getElementById('reportContent');
+        
+        // Рассчитываем итоги
+        let totalDebt = 0;
+        let totalMonthly = 0;
+        let totalOverpayment = 0;
+        
+        debts.forEach(debt => {
+            totalDebt += debt.amount;
+            totalMonthly += debt.monthly;
+            const totalPayment = debt.monthly * debt.months;
+            totalOverpayment += (totalPayment - debt.amount);
+        });
+        
+        const potentialSavings = Math.round(totalOverpayment * 0.4);
+        const avgRate = debts.reduce((sum, debt) => sum + debt.rate, 0) / debts.length;
+        
+        // Формируем HTML отчета
+        let html = `
+            <div class="report-meta">
+                <div class="report-row">
+                    <span class="report-label">Дата отчета:</span>
+                    <span class="report-value">${new Date().toLocaleDateString('ru-RU')}</span>
+                </div>
+                <div class="report-row">
+                    <span class="report-label">Количество долгов:</span>
+                    <span class="report-value">${debts.length}</span>
+                </div>
+            </div>
+            
+            <h3 style="margin: 25px 0 15px 0; color: #2d3748;">📋 Детализация долгов</h3>
+        `;
+        
+        // Добавляем каждый долг
+        debts.forEach((debt, index) => {
+            const totalPayment = debt.monthly * debt.months;
+            const debtOverpayment = totalPayment - debt.amount;
+            
+            html += `
+                <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="font-weight: 700; color: #2d3748; margin-bottom: 10px;">
+                        ${index + 1}. ${debt.creditor}
+                    </div>
+                    <div class="report-row">
+                        <span class="report-label">Сумма долга:</span>
+                        <span class="report-value">${formatMoney(debt.amount)}</span>
+                    </div>
+                    <div class="report-row">
+                        <span class="report-label">Ежемесячный платеж:</span>
+                        <span class="report-value">${formatMoney(debt.monthly)}</span>
+                    </div>
+                    <div class="report-row">
+                        <span class="report-label">Ставка:</span>
+                        <span class="report-value">${debt.rate}% годовых</span>
+                    </div>
+                    <div class="report-row">
+                        <span class="report-label">Остаток срока:</span>
+                        <span class="report-value">${debt.months} месяцев</span>
+                    </div>
+                    <div class="report-row">
+                        <span class="report-label">Общая переплата:</span>
+                        <span class="report-value">${formatMoney(debtOverpayment)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Итоги
+        html += `
+            <div class="report-total">
+                <h3 style="margin-top: 0; color: #22543d;">💰 Итоговые показатели</h3>
+                <div class="report-row">
+                    <span class="report-label">Общая сумма долгов:</span>
+                    <span class="report-value">${formatMoney(totalDebt)}</span>
+                </div>
+                <div class="report-row">
+                    <span class="report-label">Совокупный ежемесячный платеж:</span>
+                    <span class="report-value">${formatMoney(totalMonthly)}</span>
+                </div>
+                <div class="report-row">
+                    <span class="report-label">Средняя процентная ставка:</span>
+                    <span class="report-value">${avgRate.toFixed(1)}%</span>
+                </div>
+                <div class="report-row">
+                    <span class="report-label">Общая переплата:</span>
+                    <span class="report-value">${formatMoney(totalOverpayment)}</span>
+                </div>
+                <div class="report-row" style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <span class="report-label" style="font-size: 1.1rem; color: #22543d;">Возможное списание при банкротстве:</span>
+                    <span class="report-value" style="font-size: 1.3rem; color: #38a169;">${formatMoney(potentialSavings)}</span>
+                </div>
+            </div>
+            
+            <div class="report-note">
+                <p><strong>Важно:</strong> Это предварительный расчет на основе введенных данных. 
+                Точный размер списания определяется судом в рамках процедуры банкротства физического лица.</p>
+                <p>Для детального анализа вашей ситуации и расчета реальной выгоды обратитесь к юристу.</p>
+            </div>
+        `;
+        
+        reportContent.innerHTML = html;
+    }
+    
+    // ===== 9. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
     function clearForm() {
         creditorInput.value = '';
         amountInput.value = '';
@@ -283,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // ===== 7. ИНИЦИАЛИЗАЦИЯ =====
+    // ===== 10. ИНИЦИАЛИЗАЦИЯ =====
     console.log('Инициализация завершена');
     console.log('Готов к работе! Добавляйте долги.');
 });
