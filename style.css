@@ -797,127 +797,229 @@ h2 i {
     font-size: 16px !important;
   }
 }
-/* ===== ПОДВАЛ С ЭЛЕМЕНТАМИ ДОВЕРИЯ ===== */
-.footer-trust {
+/* ===== ЕДИНЫЙ ПРОФЕССИОНАЛЬНЫЙ ПОДВАЛ ===== */
+.unified-footer {
   margin-top: 60px;
-  padding: 30px;
-  background-color: #f8fafc;
-  border-radius: 16px;
+  padding: 40px;
+  background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+  border-radius: 20px;
   border: 1px solid #e2e8f0;
-  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column {
+  padding: 25px;
+}
+
+.footer-column.trust {
+  background-color: white;
+  border-radius: 16px;
+  border: 1px solid #edf2f7;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.trust-badges {
+.footer-column.actions {
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 25px;
 }
 
+/* Стили для элементов доверия */
 .trust-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 1.05rem;
+  gap: 15px;
+  font-size: 1.1rem;
   color: #4a5568;
-  padding: 12px 20px;
-  background-color: white;
+  padding: 18px;
+  background-color: #f7fafc;
   border-radius: 12px;
-  border: 1px solid #edf2f7;
-  transition: transform 0.2s;
+  margin-bottom: 20px;
+  transition: all 0.3s;
 }
 
 .trust-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transform: translateX(5px);
 }
 
 .trust-icon {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  min-width: 40px;
+  text-align: center;
 }
 
 .telegram-link {
   color: #0088cc;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   margin-left: 5px;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 6px;
-  background-color: rgba(0, 136, 204, 0.08);
+  background-color: rgba(0, 136, 204, 0.1);
+  transition: all 0.3s;
 }
 
 .telegram-link:hover {
   text-decoration: underline;
-  background-color: rgba(0, 136, 204, 0.12);
+  background-color: rgba(0, 136, 204, 0.2);
 }
 
 .success-stats {
-  margin: 30px 0;
+  margin-top: 25px;
   padding: 25px;
   background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
-  border-radius: 12px;
+  border-radius: 14px;
   border-left: 5px solid #38a169;
-  box-shadow: 0 4px 8px rgba(56, 161, 105, 0.1);
 }
 
 .stats-text {
   color: #2d3748;
   line-height: 1.6;
+  text-align: center;
 }
 
 .highlight {
-  font-weight: 700;
+  font-weight: 800;
   color: #22543d;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .team-name {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #718096;
   font-style: italic;
-  margin-top: 8px;
 }
 
-.footer-base {
-  margin-top: 25px;
-  padding-top: 25px;
-  border-top: 1px dashed #cbd5e0;
+/* Стили для карточек действий */
+.action-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #edf2f7;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s;
+}
+
+.action-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.action-card h4 {
+  margin-bottom: 15px;
+  color: #2d3748;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.action-card p {
   color: #718096;
-  font-size: 0.95rem;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.action-btn.telegram {
+  background: linear-gradient(135deg, #0088cc, #006699);
+}
+
+.action-btn.share {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+}
+
+.action-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: white;
+}
+
+/* Нижняя часть с копирайтом */
+.footer-base {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px dashed #cbd5e0;
+  color: #718096;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .disclaimer {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #a0aec0;
-  margin-top: 8px;
+  margin-top: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
 }
 
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
-  .footer-trust {
-    padding: 20px;
+  .unified-footer {
+    padding: 25px 20px;
     margin-top: 40px;
   }
   
-  .trust-badges {
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
   }
   
-  .trust-item {
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
-  }
-  
-  .success-stats {
+  .footer-column {
     padding: 20px;
   }
   
+  .trust-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .trust-icon {
+    font-size: 2rem;
+  }
+  
+  .action-card {
+    padding: 25px 20px;
+  }
+  
+  .action-btn {
+    padding: 16px;
+    font-size: 1rem;
+  }
+  
   .highlight {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
+
