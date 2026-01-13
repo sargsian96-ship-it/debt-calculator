@@ -353,6 +353,43 @@ body {
     font-style: italic;
 }
 
+/* ===== ОПЦИИ СВЯЗИ ===== */
+.contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.phone-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s;
+}
+
+.phone-option:hover {
+    background: #edf2f7;
+    transform: translateY(-2px);
+}
+
+.phone-link {
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.phone-link:hover {
+    color: #4299e1;
+    text-decoration: underline;
+}
+
 /* ===== БЛОК ОТЧЕТА ===== */
 .report-section {
     background: white;
@@ -443,6 +480,71 @@ body {
     color: #744210;
     border-left: 4px solid #d69e2e;
     margin-top: 20px;
+}
+
+.phone-cta {
+    background: #e3f2fd;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 25px;
+    text-align: center;
+    border: 2px solid #4299e1;
+}
+
+.phone-cta h4 {
+    margin-top: 0;
+    color: #1976d2;
+    margin-bottom: 15px;
+}
+
+.phone-cta .phone-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 10px 0;
+    display: block;
+}
+
+.phone-cta .phone-number a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+.phone-cta .phone-number a:hover {
+    text-decoration: underline;
+}
+
+.phone-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.phone-buttons a {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.phone-buttons .btn-call {
+    background: #38a169;
+    color: white;
+}
+
+.phone-buttons .btn-telegram {
+    background: #0088cc;
+    color: white;
+}
+
+.phone-buttons a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .report-actions {
@@ -562,7 +664,6 @@ body {
     justify-content: center;
     gap: 10px;
     transition: all 0.3s;
-    margin-top: auto;
 }
 
 .btn-primary {
@@ -613,6 +714,12 @@ body {
     background: white;
     border-radius: 12px;
     border: 1px solid #edf2f7;
+    transition: all 0.3s;
+}
+
+.trust-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .trust-icon {
@@ -680,6 +787,12 @@ body {
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     text-align: center;
+    transition: all 0.3s;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .action-icon {
@@ -785,6 +898,10 @@ body {
     .input-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .phone-buttons {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 768px) {
@@ -860,6 +977,10 @@ body {
     .btn-telegram, .btn-print {
         width: 100%;
     }
+    
+    .contact-options {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 480px) {
@@ -885,5 +1006,13 @@ body {
     
     .offer-price {
         font-size: 2rem;
+    }
+    
+    .phone-cta {
+        padding: 20px 15px;
+    }
+    
+    .phone-cta .phone-number {
+        font-size: 1.3rem;
     }
 }
