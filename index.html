@@ -6,25 +6,6 @@
     <title>Калькулятор долгов | Аркада - помощь с банкротством</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Яндекс.Метрика -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym106248795");
-
-        ym(95797677, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true,
-            ecommerce:"dataLayer"
-        });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/95797677" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Яндекс.Метрика -->
 </head>
 <body>
     <div class="container">
@@ -32,7 +13,7 @@
         <header class="main-header">
             <div class="header-content">
                 <h1><i class="fas fa-calculator"></i> Калькулятор долгов</h1>
-                <p class="subtitle">Как это работает — 3 шага: добавьте долги → получите расчет → свяжитесь с юристом..</p>
+                <p class="subtitle">Рассчитайте выгоду от списания долгов через банкротство. Анализ основан на практике юриста по банкротствам.</p>
             </div>
         </header>
 
@@ -155,7 +136,7 @@
                         <div class="result-icon" style="background: #e8f5e9;">
                             <i class="fas fa-piggy-bank" style="color: #388e3c;"></i>
                         </div>
-                        <h3>Экономия</h3>
+                        <h3>Возможное списание</h3>
                         <div class="result-value" id="resultSavings">0 ₽</div>
                         <p class="result-note">при процедуре банкротства</p>
                     </div>
@@ -170,10 +151,10 @@
                         <p>Каждый месяц вы переплачиваете <strong id="ctaOverpayment">0 ₽</strong>. 
                         Завтра эта сумма станет еще больше.</p>
                         <div class="cta-buttons">
-                            <a href="tel:+79281068699" class="cta-btn cta-call" id="phoneBtn">
+                            <a href="tel:+79281068699" class="cta-btn cta-call">
                                 <i class="fas fa-phone"></i> Бесплатный звонок юристу
                             </a>
-                            <a href="https://t.me/ArcadConsult_bot" class="cta-btn cta-telegram" id="telegramBtn" target="_blank">
+                            <a href="https://t.me/ArcadConsult_bot" class="cta-btn cta-telegram" target="_blank">
                                 <i class="fab fa-telegram"></i> Написать в Telegram
                             </a>
                         </div>
@@ -196,7 +177,7 @@
                 </div>
                 
                 <div class="report-actions">
-                    <button class="btn btn-telegram" id="reportTelegramBtn">
+                    <button class="btn btn-telegram" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
                         <i class="fab fa-telegram"></i> Telegram
                     </button>
                     <button class="btn btn-print" onclick="window.print()">
@@ -222,12 +203,12 @@
                         <div class="offer-price">Бесплатно</div>
                         
                         <div class="contact-options">
-                            <button class="offer-btn btn-primary" id="offerTelegramBtn">
+                            <button class="offer-btn btn-primary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
                                 <i class="fab fa-telegram"></i> Telegram
                             </button>
                             <div class="phone-option">
                                 <i class="fas fa-phone"></i>
-                                <a href="tel:+79281068699" class="phone-link" id="offerPhoneLink">+7 (928) 106-86-99</a>
+                                <a href="tel:+79281068699" class="phone-link">+7 (928) 106-86-99</a>
                             </div>
                         </div>
                     </div>
@@ -239,7 +220,7 @@
                         <h3>Стратегическая сессия</h3>
                         <p class="offer-description">Полный анализ + план действий (60 минут) с детальным разбором</p>
                         <div class="offer-price">5 000 ₽</div>
-                        <button class="offer-btn btn-secondary" id="premiumBtn">
+                        <button class="offer-btn btn-secondary" onclick="window.open('https://t.me/ArcadConsult_bot', '_blank')">
                             <i class="fas fa-calendar-check"></i> Забронировать
                         </button>
                     </div>
@@ -250,7 +231,7 @@
                         </div>
                         <h3>Скачать отчет</h3>
                         <p class="offer-description">PDF с расчетами для самостоятельного изучения и показа юристу</p>
-                        <button class="offer-btn btn-tertiary" id="showReportBtn">
+                        <button class="offer-btn btn-tertiary" onclick="showReport()">
                             <i class="fas fa-download"></i> Показать отчет
                         </button>
                     </div>
@@ -277,7 +258,7 @@
                         </div>
                         <div class="trust-text">
                             <strong>Бесплатный вопрос юристу:</strong> 
-                            <a href="https://t.me/ArcadConsult_bot" class="telegram-link" id="footerTelegramLink" target="_blank">
+                            <a href="https://t.me/ArcadConsult_bot" class="telegram-link" target="_blank">
                                 @ArcadConsult_bot
                             </a>
                         </div>
@@ -289,7 +270,7 @@
                         </div>
                         <div class="trust-text">
                             <strong>Телефон для связи:</strong>
-                            <a href="tel:+79281068699" class="telegram-link" id="footerPhoneLink">
+                            <a href="tel:+79281068699" class="telegram-link">
                                 +7 (928) 106-86-99
                             </a>
                         </div>
@@ -313,7 +294,7 @@
                         </div>
                         <h4>Наш полезный канал</h4>
                         <p>Актуальные новости, кейсы и инструкции по списанию долгов</p>
-                        <a href="https://t.me/Arcad_help" class="action-btn telegram" id="channelLink" target="_blank">
+                        <a href="https://t.me/Arcad_help" class="action-btn telegram" target="_blank">
                             <i class="fab fa-telegram"></i> Перейти в канал
                         </a>
                     </div>
@@ -325,7 +306,7 @@
                         <h4>Поделиться ботом</h4>
                         <p>Помогите друзьям узнать о своих возможностях по списанию долгов</p>
                         <a href="https://t.me/share/url?url=https://t.me/ArcadConsult_bot&text=Бесплатный калькулятор долгов от юристов по банкротству - рассчитай свою выгоду!" 
-                           class="action-btn share" id="shareLink" target="_blank">
+                           class="action-btn share" target="_blank">
                             <i class="fas fa-share-alt"></i> Поделиться в Telegram
                         </a>
                     </div>
@@ -338,9 +319,9 @@
                     <p class="disclaimer">Расчеты носят информационный характер. Для точного анализа требуется консультация юриста.</p>
                 </div>
                 <div class="footer-links">
-                    <a href="https://t.me/ArcadConsult_bot" id="footerBotLink" target="_blank">Телеграм-бот</a>
-                    <a href="tel:+79281068699" id="footerPhoneLink2">Телефон</a>
-                    <a href="https://t.me/Arcad_help" id="footerChannelLink" target="_blank">Канал</a>
+                    <a href="https://t.me/ArcadConsult_bot" target="_blank">Телеграм-бот</a>
+                    <a href="tel:+79281068699">Телефон</a>
+                    <a href="https://t.me/Arcad_help" target="_blank">Канал</a>
                     <a href="#" onclick="alert('Политика конфиденциальности доступна по запросу в боте @ArcadConsult_bot')">Конфиденциальность</a>
                 </div>
             </div>
@@ -350,5 +331,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
