@@ -1,50 +1,57 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Калькулятор долгов загружен!');
     
-    // ===== ФУНКЦИИ ДЛЯ ЯНДЕКС.МЕТРИКИ =====
-    function trackYandexMetrica(eventCategory, eventAction, eventLabel = '') {
-        if (typeof ym !== 'undefined') {
-            ym(95797677, 'reachGoal', eventAction);
-            console.log('YM Track:', eventCategory, eventAction, eventLabel);
-        }
-    }
-    
-    // ===== ОСНОВНЫЕ ЭЛЕМЕНТЫ =====
+    // Элементы формы
     const addDebtBtn = document.getElementById('addDebtBtn');
     const calculateBtn = document.getElementById('calculateBtn');
     const debtTableBody = document.getElementById('debtTableBody');
     const emptyState = document.getElementById('emptyState');
     
+    // Поля формы
     const creditorInput = document.getElementById('creditor');
     const amountInput = document.getElementById('amount');
     const monthlyInput = document.getElementById('monthly');
     const rateInput = document.getElementById('rate');
     const monthsInput = document.getElementById('months');
     
+    // Массив долгов
     let debts = [];
     
-    // ===== 1. ДОБАВЛЕНИЕ ДОЛГА =====
+    // ===== 1. ФУНКЦИЯ ДОБАВЛЕНИЯ ДОЛГА =====
     addDebtBtn.addEventListener('click', function() {
+        console.log('Кнопка "Добавить долг" нажата');
+        
+        // Получаем значения из формы
         const creditor = creditorInput.value.trim();
         const amount = parseFloat(amountInput.value) || 0;
         const monthly = parseFloat(monthlyInput.value) || 0;
         const rate = parseFloat(rateInput.value) || 0;
         const months = parseFloat(monthsInput.value) || 0;
         
+        console.log('Получены значения:', { creditor, amount, monthly, rate, months });
+        
+        // Проверяем заполненность полей
         if (!creditor) {
-            alert('Введите название кредитора');
+            alert('Введите название кредитора (например: Сбербанк, кредитная карта)');
             creditorInput.focus();
             return;
         }
         
         if (amount <= 0) {
-            alert('Введите сумму долга');
+            alert('Введите сумму долга (больше 0)');
             amountInput.focus();
             return;
         }
         
+        if (monthly <= 0) {
+            alert('Введите ежемесячный платеж (больше 0)');
+            monthlyInput.focus();
+            return;
+        }
+        
+        // Создаем объект долга
         const newDebt = {
-            id: Date.now(),
+            id: Date.now(), // уникальный ID
             creditor: creditor,
             amount: amount,
             monthly: monthly,
@@ -53,30 +60,47 @@ document.addEventListener('DOMContentLoaded', function() {
             date: new Date().toLocaleDateString('ru-RU')
         };
         
+        console.log('Создан новый долг:', newDebt);
+        
+        // Добавляем в массив
         debts.push(newDebt);
+        console.log('Всего долгов в массиве:', debts.length);
         
-        // ОТСЛЕЖИВАНИЕ: Добавление долга
-        trackYandexMetrica('calculator', 'add_debt', `Сумма: ${amount}₽`);
-        
+        // Обновляем таблицу
         updateDebtTable();
+        
+        // Обновляем итоги
         updateTotals();
+        
+        // Очищаем форму
         clearForm();
+        
+        // Показываем сообщение
         showMessage('✅ Долг добавлен!', 'success');
     });
     
-    // ===== 2. ОБНОВЛЕНИЕ ТАБЛИЦЫ =====
+    // ===== 2. ФУНКЦИЯ ОБНОВЛЕНИЯ ТАБЛИЦЫ =====
     function updateDebtTable() {
+        console.log('Обновление таблицы...');
+        
+        // Очищаем таблицу
         debtTableBody.innerHTML = '';
         
+        // Если нет долгов, показываем сообщение
         if (debts.length === 0) {
             emptyState.style.display = 'block';
+            console.log('Нет долгов для отображения');
             return;
         }
         
+        // Скрываем сообщение "нет долгов"
         emptyState.style.display = 'none';
         
+        // Добавляем каждый долг в таблицу
         debts.forEach(function(debt, index) {
             const row = document.createElement('tr');
+            
+            // Рассчитываем общую выплату
             const totalPayment = debt.monthly * debt.months;
             const overpayment = totalPayment - debt.amount;
             
@@ -90,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${debt.rate}%</td>
                 <td>${debt.months} мес.</td>
                 <td>
-                    <button onclick="deleteDebt(${debt.id})" class="delete-btn">
+                    <button onclick="deleteDebt(${debt.id})" 
+                            style="background: #fed7d7; color: #c53030; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
                         ❌ Удалить
                     </button>
                 </td>
@@ -98,12 +123,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             debtTableBody.appendChild(row);
         });
+        
+        console.log('Таблица обновлена, добавлено строк:', debts.length);
     }
     
-    // ===== 3. УДАЛЕНИЕ ДОЛГА =====
+    // ===== 3. ФУНКЦИЯ УДАЛЕНИЯ ДОЛГА =====
     window.deleteDebt = function(id) {
+        console.log('Удаление долга с ID:', id);
+        
         if (!confirm('Удалить этот долг?')) return;
         
+        // Фильтруем массив, оставляем все кроме удаляемого
         debts = debts.filter(function(debt) {
             return debt.id !== id;
         });
@@ -113,8 +143,10 @@ document.addEventListener('DOMContentLoaded', function() {
         showMessage('🗑️ Долг удален', 'info');
     };
     
-    // ===== 4. ОБНОВЛЕНИЕ ИТОГОВ =====
+    // ===== 4. ФУНКЦИЯ ОБНОВЛЕНИЯ ИТОГОВ =====
     function updateTotals() {
+        console.log('Обновление итогов...');
+        
         let totalAmount = 0;
         let totalMonthly = 0;
         
@@ -123,15 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
             totalMonthly += debt.monthly;
         });
         
+        // Обновляем элементы на странице (если они есть)
         const totalDebtEl = document.getElementById('totalDebt');
         const totalMonthlyEl = document.getElementById('totalMonthly');
         
         if (totalDebtEl) totalDebtEl.textContent = formatMoney(totalAmount);
         if (totalMonthlyEl) totalMonthlyEl.textContent = formatMoney(totalMonthly);
+        
+        console.log('Итоги: сумма =', totalAmount, 'ежемесячно =', totalMonthly);
     }
     
-    // ===== 5. РАСЧЕТ ВЫГОДЫ =====
+    // ===== 5. ФУНКЦИЯ РАСЧЕТА =====
     calculateBtn.addEventListener('click', function() {
+        console.log('Расчет выгоды...');
+        
         if (debts.length === 0) {
             alert('Сначала добавьте хотя бы один долг');
             return;
@@ -148,12 +185,15 @@ document.addEventListener('DOMContentLoaded', function() {
         debts.forEach(function(debt) {
             totalDebt += debt.amount;
             totalMonthly += debt.monthly;
+            
             const totalPayment = debt.monthly * debt.months;
             totalOverpayment += (totalPayment - debt.amount);
         });
         
+        // Потенциальная экономия (40% от переплаты)
         const potentialSavings = Math.round(totalOverpayment * 0.4);
         
+        // Обновляем элементы результатов
         const resultTotalDebtEl = document.getElementById('resultTotalDebt');
         const resultMonthlyEl = document.getElementById('resultMonthly');
         const resultOverpaymentEl = document.getElementById('resultOverpayment');
@@ -164,56 +204,70 @@ document.addEventListener('DOMContentLoaded', function() {
         if (resultOverpaymentEl) resultOverpaymentEl.textContent = formatMoney(totalOverpayment);
         if (resultSavingsEl) resultSavingsEl.textContent = formatMoney(potentialSavings);
         
-        // ОТСЛЕЖИВАНИЕ: Расчет завершен
-        trackYandexMetrica('calculator', 'calculate', `Долг: ${totalDebt}₽, Списание: ${potentialSavings}₽`);
-        
-        // Показываем CTA
+        // ===== ПОКАЗЫВАЕМ ПРИЗЫВ К ДЕЙСТВИЮ =====
         showCTA(totalMonthly, totalOverpayment);
         
+        // Прокручиваем к результатам
         const resultsSection = document.querySelector('.results-section');
         if (resultsSection) {
             resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
         
+        console.log('Результаты расчета:', {
+            totalDebt,
+            totalMonthly,
+            totalOverpayment,
+            potentialSavings
+        });
+        
         showMessage('📊 Расчет завершен!', 'success');
     }
     
-    // ===== 6. ПРИЗЫВ К ДЕЙСТВИЮ =====
+    // ===== 6. ФУНКЦИЯ ПОКАЗА ПРИЗЫВА К ДЕЙСТВИЮ =====
     function showCTA(totalMonthly, totalOverpayment) {
         const ctaSection = document.getElementById('ctaSection');
         const ctaOverpaymentEl = document.getElementById('ctaOverpayment');
         
+        // Обновляем цифру в CTA
         if (ctaOverpaymentEl) {
             ctaOverpaymentEl.textContent = formatMoney(totalMonthly);
         }
         
+        // Показываем CTA блок
         ctaSection.style.display = 'block';
         
+        // Прокручиваем к CTA
         setTimeout(() => {
             ctaSection.scrollIntoView({ 
                 behavior: 'smooth', 
                 block: 'center' 
             });
         }, 500);
+        
+        console.log('CTA показан с суммой:', totalMonthly);
     }
     
-    // ===== 7. ПОКАЗ ОТЧЕТА =====
+    // ===== 7. ФУНКЦИЯ ПОКАЗА ОТЧЕТА =====
     window.showReport = function() {
+        console.log('Показ отчета...');
+        
         if (debts.length === 0) {
-            alert('Нет данных для отчета. Сначала добавьте долги.');
+            alert('Нет данных для отчета. Сначала добавьте долги и сделайте расчет.');
             return;
         }
         
-        // ОТСЛЕЖИВАНИЕ: Показ отчета
-        trackYandexMetrica('report', 'show', `Долгов: ${debts.length}`);
-        
+        // Рассчитываем, если еще не рассчитано
         if (document.getElementById('resultSavings').textContent === '0 ₽') {
             calculateResults();
         }
         
+        // Генерируем содержимое отчета
         generateReportContent();
+        
+        // Показываем блок отчета
         document.getElementById('reportSection').style.display = 'block';
         
+        // Прокручиваем к отчету
         document.getElementById('reportSection').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
@@ -222,15 +276,16 @@ document.addEventListener('DOMContentLoaded', function() {
         showMessage('📄 Отчет сгенерирован!', 'success');
     };
     
-    // ===== 8. СКРЫТИЕ ОТЧЕТА =====
+    // ===== 8. ФУНКЦИЯ СКРЫТИЯ ОТЧЕТА =====
     window.hideReport = function() {
         document.getElementById('reportSection').style.display = 'none';
     };
     
-    // ===== 9. ГЕНЕРАЦИЯ ОТЧЕТА =====
+    // ===== 9. ФУНКЦИЯ ГЕНЕРАЦИИ ОТЧЕТА =====
     function generateReportContent() {
         const reportContent = document.getElementById('reportContent');
         
+        // Рассчитываем итоги
         let totalDebt = 0;
         let totalMonthly = 0;
         let totalOverpayment = 0;
@@ -245,6 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const potentialSavings = Math.round(totalOverpayment * 0.4);
         const avgRate = debts.reduce((sum, debt) => sum + debt.rate, 0) / debts.length;
         
+        // Формируем HTML отчета
         let html = `
             <div class="report-meta">
                 <div class="report-row">
@@ -260,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h3 style="margin: 25px 0 15px 0; color: #2d3748;">📋 Детализация долгов</h3>
         `;
         
+        // Добавляем каждый долг
         debts.forEach((debt, index) => {
             const totalPayment = debt.monthly * debt.months;
             const debtOverpayment = totalPayment - debt.amount;
@@ -293,6 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
         
+        // Итоги
         html += `
             <div class="report-total">
                 <h3 style="margin-top: 0; color: #22543d;">💰 Итоговые показатели</h3>
@@ -328,13 +386,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h4>📞 Свяжитесь с нами</h4>
                 <p style="color: #4a5568;">Получите бесплатную консультацию по списанию долгов</p>
                 <div class="phone-number">
-                    <a href="tel:+79281068699" id="reportPhoneLink">+7 (928) 106-86-99</a>
+                    <a href="tel:+79281068699">+7 (928) 106-86-99</a>
                 </div>
                 <div class="phone-buttons">
-                    <a href="tel:+79281068699" class="btn-call" id="reportCallBtn">
+                    <a href="tel:+79281068699" class="btn-call">
                         <i class="fas fa-phone"></i> Позвонить сейчас
                     </a>
-                    <a href="https://t.me/ArcadConsult_bot" class="btn-telegram" id="reportTelegramLink">
+                    <a href="https://t.me/ArcadConsult_bot" class="btn-telegram">
                         <i class="fab fa-telegram"></i> Telegram
                     </a>
                 </div>
@@ -347,57 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reportContent.innerHTML = html;
     }
     
-    // ===== 10. ОТСЛЕЖИВАНИЕ КЛИКОВ =====
-    function setupClickTracking() {
-        // Телефонные ссылки
-        const phoneLinks = [
-            'phoneBtn', 'offerPhoneLink', 'footerPhoneLink', 
-            'footerPhoneLink2', 'reportPhoneLink', 'reportCallBtn'
-        ];
-        
-        phoneLinks.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.addEventListener('click', function() {
-                    trackYandexMetrica('conversion', 'phone_click', this.href || this.textContent);
-                });
-            }
-        });
-        
-        // Telegram ссылки
-        const telegramLinks = [
-            'telegramBtn', 'offerTelegramBtn', 'footerTelegramLink',
-            'channelLink', 'shareLink', 'footerBotLink', 'footerChannelLink',
-            'reportTelegramBtn', 'reportTelegramLink', 'premiumBtn'
-        ];
-        
-        telegramLinks.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.addEventListener('click', function() {
-                    trackYandexMetrica('conversion', 'telegram_click', 'Клик на Telegram');
-                });
-            }
-        });
-        
-        // Кнопка показа отчета
-        const showReportBtn = document.getElementById('showReportBtn');
-        if (showReportBtn) {
-            showReportBtn.addEventListener('click', function() {
-                trackYandexMetrica('report', 'show_button', 'Кнопка "Показать отчет"');
-            });
-        }
-        
-        // Кнопка Telegram в отчете
-        const reportTelegramBtn = document.getElementById('reportTelegramBtn');
-        if (reportTelegramBtn) {
-            reportTelegramBtn.addEventListener('click', function() {
-                trackYandexMetrica('conversion', 'report_telegram_click', 'Telegram из отчета');
-            });
-        }
-    }
-    
-    // ===== 11. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    // ===== 10. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
     function clearForm() {
         creditorInput.value = '';
         amountInput.value = '';
@@ -412,6 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showMessage(text, type) {
+        // Создаем элемент сообщения
         const message = document.createElement('div');
         message.textContent = text;
         message.style.cssText = `
@@ -430,6 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(message);
         
+        // Удаляем через 3 секунды
         setTimeout(function() {
             if (message.parentNode) {
                 message.style.animation = 'fadeOut 0.3s';
@@ -441,6 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 3000);
         
+        // Добавляем стили для анимации
         if (!document.getElementById('message-styles')) {
             const style = document.createElement('style');
             style.id = 'message-styles';
@@ -458,10 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // ===== 12. ИНИЦИАЛИЗАЦИЯ =====
+    // ===== 11. ИНИЦИАЛИЗАЦИЯ =====
     console.log('Инициализация завершена');
     console.log('Готов к работе! Добавляйте долги.');
-    
-    // Настройка отслеживания кликов
-    setTimeout(setupClickTracking, 1000);
 });
