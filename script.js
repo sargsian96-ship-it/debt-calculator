@@ -1,11 +1,16 @@
+// Конфигурация Яндекс.Метрики
+const METRIKA_ID = 106284317;
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Калькулятор долгов загружен!');
+    console.log('Калькулятор долгов загружен! Яндекс.Метрика ID:', METRIKA_ID);
     
     // Элементы формы
     const addDebtBtn = document.getElementById('addDebtBtn');
     const calculateBtn = document.getElementById('calculateBtn');
     const debtTableBody = document.getElementById('debtTableBody');
     const emptyState = document.getElementById('emptyState');
+    const phoneLink = document.getElementById('phoneLink');
+    const telegramLink = document.getElementById('telegramLink');
     
     // Поля формы
     const creditorInput = document.getElementById('creditor');
@@ -65,6 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Добавляем в массив
         debts.push(newDebt);
         console.log('Всего долгов в массиве:', debts.length);
+        
+        // ✅ ОТПРАВКА СОБЫТИЯ В ЯНДЕКС.МЕТРИКУ
+        if (typeof ym !== 'undefined') {
+            ym(METRIKA_ID, 'reachGoal', 'calculator_add_debt');
+            console.log('✅ Метрика: отправлено событие calculator_add_debt');
+        }
         
         // Обновляем таблицу
         updateDebtTable();
@@ -204,6 +215,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (resultOverpaymentEl) resultOverpaymentEl.textContent = formatMoney(totalOverpayment);
         if (resultSavingsEl) resultSavingsEl.textContent = formatMoney(potentialSavings);
         
+        // ✅ ОТПРАВКА СОБЫТИЯ В ЯНДЕКС.МЕТРИКУ
+        if (typeof ym !== 'undefined') {
+            ym(METRIKA_ID, 'reachGoal', 'calculator_calculate');
+            console.log('✅ Метрика: отправлено событие calculator_calculate');
+        }
+        
         // ===== ПОКАЗЫВАЕМ ПРИЗЫВ К ДЕЙСТВИЮ =====
         showCTA(totalMonthly, totalOverpayment);
         
@@ -266,6 +283,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Показываем блок отчета
         document.getElementById('reportSection').style.display = 'block';
+        
+        // ✅ ОТПРАВКА СОБЫТИЯ В ЯНДЕКС.МЕТРИКУ
+        if (typeof ym !== 'undefined') {
+            ym(METRIKA_ID, 'reachGoal', 'report_show');
+            console.log('✅ Метрика: отправлено событие report_show');
+        }
         
         // Прокручиваем к отчету
         document.getElementById('reportSection').scrollIntoView({
@@ -386,13 +409,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h4>📞 Свяжитесь с нами</h4>
                 <p style="color: #4a5568;">Получите бесплатную консультацию по списанию долгов</p>
                 <div class="phone-number">
-                    <a href="tel:+79281068699">+7 (928) 106-86-99</a>
+                    <a href="tel:+79281068699" class="report-phone-link">+7 (928) 106-86-99</a>
                 </div>
                 <div class="phone-buttons">
-                    <a href="tel:+79281068699" class="btn-call">
+                    <a href="tel:+79281068699" class="btn-call report-phone-link">
                         <i class="fas fa-phone"></i> Позвонить сейчас
                     </a>
-                    <a href="https://t.me/ArcadConsult_bot" class="btn-telegram">
+                    <a href="https://t.me/ArcadConsult_bot" class="btn-telegram report-telegram-link">
                         <i class="fab fa-telegram"></i> Telegram
                     </a>
                 </div>
@@ -403,9 +426,67 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         reportContent.innerHTML = html;
+        
+        // Назначаем обработчики для ссылок в отчете
+        setTimeout(() => {
+            document.querySelectorAll('.report-phone-link').forEach(link => {
+                link.addEventListener('click', trackPhoneClick);
+            });
+            document.querySelectorAll('.report-telegram-link').forEach(link => {
+                link.addEventListener('click', trackTelegramClick);
+            });
+        }, 100);
     }
     
-    // ===== 10. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    // ===== 10. ТРЕКИНГ КЛИКОВ ПО ТЕЛЕФОНУ =====
+    function trackPhoneClick(e) {
+        console.log('Клик по телефону');
+        
+        // ✅ ОТПРАВКА СОБЫТИЯ В ЯНДЕКС.МЕТРИКУ
+        if (typeof ym !== 'undefined') {
+            ym(METRIKA_ID, 'reachGoal', 'conversion_phone_click');
+            console.log('✅ Метрика: отправлено событие conversion_phone_click');
+        }
+        
+        // Даем время на отправку события
+        setTimeout(() => {
+            // Обычный переход по ссылке
+        }, 300);
+    }
+    
+    // ===== 11. ТРЕКИНГ КЛИКОВ ПО TELEGRAM =====
+    function trackTelegramClick(e) {
+        console.log('Клик по Telegram');
+        
+        // ✅ ОТПРАВКА СОБЫТИЯ В ЯНДЕКС.МЕТРИКУ
+        if (typeof ym !== 'undefined') {
+            ym(METRIKA_ID, 'reachGoal', 'conversion_telegram_click');
+            console.log('✅ Метрика: отправлено событие conversion_telegram_click');
+        }
+        
+        // Открываем в новой вкладке
+        e.preventDefault();
+        setTimeout(() => {
+            window.open(e.target.href || e.target.parentElement.href, '_blank');
+        }, 300);
+    }
+    
+    // ===== 12. НАСТРОЙКА ТРЕКИНГА КОНВЕРСИЙ =====
+    function setupConversionTracking() {
+        // Клики на телефон в основном интерфейсе
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', trackPhoneClick);
+        });
+        
+        // Клики на Telegram в основном интерфейсе
+        document.querySelectorAll('a[href*="t.me"]').forEach(link => {
+            link.addEventListener('click', trackTelegramClick);
+        });
+        
+        console.log('Трекинг конверсий настроен');
+    }
+    
+    // ===== 13. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
     function clearForm() {
         creditorInput.value = '';
         amountInput.value = '';
@@ -469,7 +550,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // ===== 11. ИНИЦИАЛИЗАЦИЯ =====
+    // ===== 14. ИНИЦИАЛИЗАЦИЯ =====
     console.log('Инициализация завершена');
+    console.log('Яндекс.Метрика ID:', METRIKA_ID);
     console.log('Готов к работе! Добавляйте долги.');
+    
+    // Настраиваем трекинг конверсий
+    setupConversionTracking();
 });
