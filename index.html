@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор долгов | Аркада - помощь с банкротством</title>
+    
+    <!-- Яндекс.Метрика -->
+    <script type="text/javascript">
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(106284317, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106284317" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Яндекс.Метрика -->
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -151,10 +170,10 @@
                         <p>Каждый месяц вы переплачиваете <strong id="ctaOverpayment">0 ₽</strong>. 
                         Завтра эта сумма станет еще больше.</p>
                         <div class="cta-buttons">
-                            <a href="tel:+79281068699" class="cta-btn cta-call">
+                            <a href="tel:+79281068699" class="cta-btn cta-call" id="phoneLink">
                                 <i class="fas fa-phone"></i> Бесплатный звонок юристу
                             </a>
-                            <a href="https://t.me/ArcadConsult_bot" class="cta-btn cta-telegram" target="_blank">
+                            <a href="https://t.me/ArcadConsult_bot" class="cta-btn cta-telegram" id="telegramLink" target="_blank">
                                 <i class="fab fa-telegram"></i> Написать в Telegram
                             </a>
                         </div>
@@ -331,4 +350,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
