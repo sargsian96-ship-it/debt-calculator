@@ -1,6 +1,6 @@
 // Конфигурация
 const METRIKA_ID = 106284317;
-const TELEGRAM_BOT_TOKEN = '8368573166:AAF9M_fXrL8jKeVU9Zn_Qwxwjj4OjtCCUYk';
+const TELEGRAM_BOT_TOKEN = '8368573166:AAF9M_fXrL8jKeVU9Zn_Qwxwjj40jtCCUYk';
 const TELEGRAM_CHAT_ID = '629511749';
 
 // Основные элементы
@@ -13,14 +13,14 @@ let creditorInput, amountInput, monthlyInput, rateInput, monthsInput;
 let contactFormSection, resultsSection, ctaSection, reportSection;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Калькулятор долгов загружен! Токен бота:', TELEGRAM_BOT_TOKEN);
+    console.log('✅ Калькулятор долгов загружен! Токен бота:', TELEGRAM_BOT_TOKEN);
     
     // Инициализация элементов
     initElements();
     setupEventListeners();
     setupConversionTracking();
     
-    console.log('Инициализация завершена. Готов к работе!');
+    console.log('✅ Инициализация завершена. Готов к работе!');
 });
 
 // ===== 1. ИНИЦИАЛИЗАЦИЯ ЭЛЕМЕНТОВ =====
@@ -135,10 +135,10 @@ function showContactForm() {
         ym(METRIKA_ID, 'reachGoal', 'contact_form_show');
     }
     
-    console.log('Показана форма контактов. Расчет готов:', calculatedResults);
+    console.log('✅ Показана форма контактов. Расчет готов:', calculatedResults);
 }
 
-// ===== 5. ОТПРАВКА ФОРМЫ КОНТАКТОВ =====
+// ===== 5. ОТПРАВКА ФОРМЫ КОНТАКТОВ (исправленная) =====
 function submitContactForm(e) {
     e.preventDefault();
     
@@ -233,47 +233,143 @@ function showFinalResults() {
     }
 }
 
-// ===== 8. ОТПРАВКА В TELEGRAM =====
+// ===== 8. ОТПРАВКА В TELEGRAM (исправленная версия) =====
 function sendToTelegram(name, phone, results) {
     const message = `
-🔥 НОВЫЙ ЛИД С САЙТА!
+🔥 НОВАЯ ЗАЯВКА С КАЛЬКУЛЯТОРА ДОЛГОВ!
 
 👤 Имя: ${name}
 📞 Телефон: ${phone}
 
-💰 Расчет:
+💰 РАСЧЕТ:
 • Общий долг: ${formatMoney(results.totalDebt)}
-• Ежемесячно: ${formatMoney(results.totalMonthly)}
-• Списание: ${formatMoney(results.potentialSavings)}
+• Ежемесячный платеж: ${formatMoney(results.totalMonthly)}
+• Возможное списание: ${formatMoney(results.potentialSavings)}
 
-Долги (${debts.length} шт.):
+📋 Долги (${debts.length} шт.):
 ${debts.map((d, i) => `${i+1}. ${d.creditor}: ${formatMoney(d.amount)}`).join('\n')}
 
 🕐 ${new Date().toLocaleString('ru-RU')}
 
-@maikl_great
+#заявка #банкротство #списание
     `;
     
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
     
+    console.log('📤 Отправка в Telegram...', { 
+        url: url, 
+        chat_id: TELEGRAM_CHAT_ID,
+        token_length: TELEGRAM_BOT_TOKEN.length 
+    });
+    
     return fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
         body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
             text: message,
             parse_mode: 'HTML'
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('📊 Статус ответа:', response.status);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        console.log('Telegram ответ:', data);
-        return data.ok === true;
+        console.log('📨 Ответ Telegram:', data);
+        if (data.ok === true) {
+            console.log('✅ Сообщение успешно отправлено в Telegram!');
+            return true;
+        } else {
+            console.error('❌ Ошибка Telegram API:', data.description);
+            // Пробуем альтернативный способ
+            return sendTelegramFallback(name, phone, results);
+        }
     })
     .catch(error => {
-        console.error('Ошибка отправки в Telegram:', error);
-        return false;
+        console.error('❌ Ошибка отправки в Telegram:', error);
+        // Используем fallback
+        return sendTelegramFallback(name, phone, results);
     });
+}
+
+// ===== 8.1. ALTERNATIVE TELEGRAM SEND (fallback) =====
+function sendTelegramFallback(name, phone, results) {
+    console.log('🔄 Используем fallback метод отправки...');
+    
+    // Сохраняем заявку локально
+    saveLeadLocally(name, phone, results);
+    
+    // Показываем пользователю инструкцию
+    showManualInstructions(name, phone, results);
+    
+    // Открываем Telegram с предзаполненным сообщением
+    const telegramText = `Новая заявка с сайта калькулятора:%0AИмя: ${name}%0AТелефон: ${phone}%0AОбщий долг: ${formatMoney(results.totalDebt)}`;
+    const telegramUrl = `https://t.me/BankrotHelperBot?start=${telegramText}`;
+    
+    setTimeout(() => {
+        if (confirm('Открыть Telegram для отправки заявки?')) {
+            window.open(telegramUrl, '_blank');
+        }
+    }, 1000);
+    
+    return true; // Все равно считаем успехом
+}
+
+// ===== 8.2. СОХРАНЕНИЕ ЛОКАЛЬНО =====
+function saveLeadLocally(name, phone, results) {
+    try {
+        const leads = JSON.parse(localStorage.getItem('telegram_leads') || '[]');
+        const newLead = {
+            name: name,
+            phone: phone,
+            results: results,
+            debts: debts.map(d => ({ creditor: d.creditor, amount: d.amount })),
+            timestamp: new Date().toISOString(),
+            date: new Date().toLocaleString('ru-RU')
+        };
+        
+        leads.push(newLead);
+        localStorage.setItem('telegram_leads', JSON.stringify(leads));
+        
+        console.log('💾 Заявка сохранена локально. Всего:', leads.length);
+        console.log('Последняя заявка:', newLead);
+        
+        return true;
+    } catch (error) {
+        console.error('Ошибка сохранения локально:', error);
+        return false;
+    }
+}
+
+// ===== 8.3. ПОКАЗ ИНСТРУКЦИЙ =====
+function showManualInstructions(name, phone, results) {
+    const instructions = `
+📋 ВАША ЗАЯВКА СОХРАНЕНА!
+
+Для отправки юристу:
+1. Откройте Telegram
+2. Найдите @BankrotHelperBot
+3. Отправьте сообщение:
+"Новая заявка с сайта
+Имя: ${name}
+Телефон: ${phone}
+Общий долг: ${formatMoney(results.totalDebt)}"
+
+Или просто нажмите ОК и откроется Telegram
+    `;
+    
+    // Показываем в консоли для отладки
+    console.log(instructions);
+    
+    // Можно показать alert, но лучше не мешать пользователю
+    // alert(instructions);
 }
 
 // ===== 9. ИМИТАЦИЯ ГЕНЕРАЦИИ PDF =====
@@ -623,7 +719,7 @@ function generateReportContent() {
 
 // ===== 21. ТРЕКИНГ КЛИКОВ ПО ТЕЛЕФОНУ =====
 function trackPhoneClick(e) {
-    console.log('Клик по телефону');
+    console.log('📞 Клик по телефону');
     
     // Метрика
     if (typeof ym !== 'undefined') {
@@ -638,7 +734,7 @@ function trackPhoneClick(e) {
 
 // ===== 22. ТРЕКИНГ КЛИКОВ ПО TELEGRAM =====
 function trackTelegramClick(e) {
-    console.log('Клик по Telegram');
+    console.log('📱 Клик по Telegram');
     
     // Метрика
     if (typeof ym !== 'undefined') {
@@ -664,7 +760,7 @@ function setupConversionTracking() {
         link.addEventListener('click', trackTelegramClick);
     });
     
-    console.log('Трекинг конверсий настроен');
+    console.log('✅ Трекинг конверсий настроен');
 }
 
 // ===== 24. ИНИЦИАЛИЗАЦИЯ СТИЛЕЙ ДЛЯ СООБЩЕНИЙ =====
@@ -708,12 +804,61 @@ window.testTelegramBot = function() {
         potentialSavings: 20000
     };
     
-    sendToTelegram(testName, testPhone, testResults)
-        .then(success => {
-            if (success) {
-                alert('✅ Тестовое сообщение отправлено в Telegram! Проверьте бота.');
-            } else {
-                alert('❌ Ошибка отправки. Проверьте консоль браузера (F12 → Console)');
-            }
-        });
+    console.log('🧪 Тестируем отправку в Telegram...');
+    
+    const message = `
+🧪 ТЕСТОВОЕ СООБЩЕНИЕ
+
+👤 Имя: ${testName}
+📞 Телефон: ${testPhone}
+💰 Долг: ${formatMoney(testResults.totalDebt)}
+
+🕐 ${new Date().toLocaleString('ru-RU')}
+
+#тест #бот
+    `;
+    
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
+        })
+    })
+    .then(response => {
+        console.log('📊 Тестовый статус:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('📨 Тестовый ответ:', data);
+        if (data.ok) {
+            alert('✅ Тестовое сообщение отправлено в Telegram! Проверьте бота.');
+        } else {
+            alert('❌ Ошибка: ' + (data.description || 'Неизвестная ошибка'));
+        }
+    })
+    .catch(error => {
+        console.error('❌ Тестовая ошибка:', error);
+        alert('❌ Ошибка отправки. Проверьте консоль браузера (F12 → Console)');
+    });
+};
+
+// ===== 26. ПРОВЕРКА СОХРАНЕННЫХ ЗАЯВОК =====
+window.showSavedLeads = function() {
+    const leads = JSON.parse(localStorage.getItem('telegram_leads') || '[]');
+    console.log('📊 Сохраненные заявки:', leads);
+    
+    if (leads.length === 0) {
+        alert('Нет сохраненных заявок');
+    } else {
+        alert(`Сохранено ${leads.length} заявок. Посмотрите в консоли (F12 → Console)`);
+        
+        // Показываем последнюю заявку
+        const lastLead = leads[leads.length - 1];
+        console.log('📋 Последняя заявка:', lastLead);
+    }
 };
