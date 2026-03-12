@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор долгов | Аркад - помощь с банкротством</title>
-    
-    <!-- Яндекс.Метрика -->
+    <title>Аномальный разбор | Массажист Михаил</title>
+
+    <!-- Яндекс.Метрика (твой код) -->
     <script type="text/javascript">
        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
        m[i].l=1*new Date();
@@ -22,378 +22,217 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/106284317" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Яндекс.Метрика -->
-    
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Заголовок -->
+        <!-- Шапка -->
         <header class="main-header">
             <div class="header-content">
-                <h1><i class="fas fa-calculator"></i> Калькулятор долгов</h1>
-                <p class="subtitle">Как это работает — 3 шага: добавьте долги → получите расчет → свяжитесь с юристом.</p>
+                <h1><i class="fas fa-spine"></i> Аномальный разбор</h1>
+                <p class="subtitle">3 шага: ответь на вопросы → получи упражнения для снятия боли → запишись на массаж к Михаилу.</p>
             </div>
         </header>
 
-        <!-- Дисклеймер -->
+        <!-- Пояснение -->
         <div class="disclaimer-box">
             <i class="fas fa-exclamation-circle"></i>
-            <p>Все расчеты приблизительные. Для точного анализа вашей ситуации необходима консультация юриста.</p>
+            <p>Это предварительная самодиагностика. Точный диагноз может поставить только специалист при личном осмотре.</p>
         </div>
 
-        <!-- Основной блок калькулятора -->
+        <!-- Основной блок -->
         <main class="calculator-section">
             <div class="section-header">
-                <h2><i class="fas fa-file-invoice-dollar"></i> Ваши текущие долги</h2>
-                <p class="section-description">Добавьте все ваши кредиты и займы для расчета</p>
+                <h2><i class="fas fa-notes-medical"></i> Что болит?</h2>
+                <p class="section-description">Ответь на 3 вопроса, чтобы я понял твою ситуацию</p>
             </div>
 
-            <!-- Форма добавления долга -->
-            <div class="debt-input-form">
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label for="creditor"><i class="fas fa-building"></i> Кредитор / Тип долга</label>
-                        <input type="text" id="creditor" placeholder="Сбербанк, кредитная карта">
+            <!-- Блок вопросов -->
+            <div class="symptom-input-form" id="questionBlock">
+                <div class="question" id="question1">
+                    <h3><i class="fas fa-question-circle"></i> Вопрос 1 из 3</h3>
+                    <p class="question-text">Где ты чувствуешь дискомфорт?</p>
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="radio" name="q1" value="Шея" checked>
+                            <i class="fas fa-user-injured"></i>
+                            <span>Шея (трудно повернуть)</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q1" value="Плечи">
+                            <i class="fas fa-user-md"></i>
+                            <span>Плечи и воротниковая зона (каменные)</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q1" value="Поясница">
+                            <i class="fas fa-user-nurse"></i>
+                            <span>Поясница (ноет)</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q1" value="Лопатки">
+                            <i class="fas fa-user"></i>
+                            <span>Между лопатками (жжёт)</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q1" value="Усталость">
+                            <i class="fas fa-smile"></i>
+                            <span>Общая усталость спины</span>
+                        </label>
                     </div>
-                    <div class="input-group">
-                        <label for="amount"><i class="fas fa-ruble-sign"></i> Сумма долга ₽</label>
-                        <input type="number" id="amount" placeholder="200000">
+                    <button class="btn btn-next" id="nextToQ2"><i class="fas fa-arrow-right"></i> Дальше</button>
+                </div>
+
+                <div class="question" id="question2" style="display: none;">
+                    <h3><i class="fas fa-question-circle"></i> Вопрос 2 из 3</h3>
+                    <p class="question-text">Как давно это беспокоит?</p>
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="radio" name="q2" value="Несколько дней" checked>
+                            <i class="fas fa-calendar-day"></i>
+                            <span>Несколько дней</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q2" value="Несколько недель">
+                            <i class="fas fa-calendar-week"></i>
+                            <span>Несколько недель</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q2" value="Несколько месяцев">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Несколько месяцев</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q2" value="Годами">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>Годами</span>
+                        </label>
                     </div>
-                    <div class="input-group">
-                        <label for="monthly"><i class="fas fa-calendar-alt"></i> Ежемес. платёж ₽</label>
-                        <input type="number" id="monthly" placeholder="15000">
-                    </div>
-                    <div class="input-group">
-                        <label for="rate"><i class="fas fa-percentage"></i> Ставка % год.</label>
-                        <input type="number" id="rate" placeholder="20">
-                    </div>
-                    <div class="input-group">
-                        <label for="months"><i class="fas fa-clock"></i> Остаток мес.</label>
-                        <input type="number" id="months" placeholder="24">
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-back" id="backToQ1"><i class="fas fa-arrow-left"></i> Назад</button>
+                        <button class="btn btn-next" id="nextToQ3"><i class="fas fa-arrow-right"></i> Дальше</button>
                     </div>
                 </div>
 
-                <div class="form-buttons">
-                    <button class="btn btn-add" id="addDebtBtn">
-                        <i class="fas fa-plus-circle"></i> Добавить долг
-                    </button>
-                    <button class="btn btn-calculate" id="calculateBtn">
-                        <i class="fas fa-chart-line"></i> Рассчитать выгоду
-                    </button>
-                </div>
-            </div>
-
-            <!-- Таблица долгов -->
-            <div class="debt-table-container">
-                <div class="table-header">
-                    <h3><i class="fas fa-list"></i> Добавленные долги</h3>
-                    <div class="total-summary">
-                        <div class="summary-item">
-                            <span class="label">Всего долгов:</span>
-                            <span class="value" id="totalDebt">0 ₽</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="label">Ежемесячный платеж:</span>
-                            <span class="value" id="totalMonthly">0 ₽</span>
-                        </div>
+                <div class="question" id="question3" style="display: none;">
+                    <h3><i class="fas fa-question-circle"></i> Вопрос 3 из 3</h3>
+                    <p class="question-text">Чем ты занимаешься большую часть дня?</p>
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="radio" name="q3" value="Офис" checked>
+                            <i class="fas fa-laptop"></i>
+                            <span>Сижу за компьютером</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q3" value="Физический труд">
+                            <i class="fas fa-hammer"></i>
+                            <span>На ногах / физический труд</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q3" value="Водитель">
+                            <i class="fas fa-car"></i>
+                            <span>За рулём</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q3" value="Смешанный">
+                            <i class="fas fa-random"></i>
+                            <span>Комбинирую</span>
+                        </label>
                     </div>
-                </div>
-
-                <table class="debt-table" id="debtTable">
-                    <thead>
-                        <tr>
-                            <th>Кредитор / Тип долга</th>
-                            <th>Сумма долга ₽</th>
-                            <th>Ежемес. платёж ₽</th>
-                            <th>Ставка % год.</th>
-                            <th>Остаток мес.</th>
-                            <th>Действие</th>
-                        </tr>
-                    </thead>
-                    <tbody id="debtTableBody">
-                        <!-- Долги добавляются сюда -->
-                    </tbody>
-                </table>
-                
-                <div class="empty-state" id="emptyState">
-                    <i class="fas fa-inbox"></i>
-                    <p>Добавьте первый долг для расчета</p>
-                </div>
-            </div>
-
-            <!-- ФОРМА ЗАХВАТА КОНТАКТА -->
-            <div class="contact-form-section" id="contactFormSection" style="display: none;">
-                <div class="contact-form-container">
-                    <div class="form-header">
-                        <h2><i class="fas fa-user-check"></i> Персональный расчет готов!</h2>
-                        <p>Чтобы получить <strong>детализированный PDF-отчет</strong> с пошаговым планом и списком документов, оставьте ваши контакты. С вами свяжется юрист <strong>Михаил</strong> для бесплатного разбора.</p>
-                    </div>
-
-                    <form id="contactForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="userName"><i class="fas fa-user"></i> Ваше имя</label>
-                                <input type="text" id="userName" placeholder="Например: Алексей" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="userPhone"><i class="fas fa-mobile-alt"></i> Номер телефона</label>
-                                <input type="tel" id="userPhone" placeholder="+7 (___) ___-__-__" required>
-                            </div>
-                        </div>
-
-                        <div class="form-benefits">
-                            <p><strong>Что вы получите сразу после отправки:</strong></p>
-                            <ul>
-                                <li><i class="fas fa-check-circle"></i> <strong>PDF-отчет</strong> «Дорожная карта к списанию долгов» на вашу почту/Telegram.</li>
-                                <li><i class="fas fa-check-circle"></i> <strong>Список документов</strong>, которые нужно подготовить для вашего случая.</li>
-                                <li><i class="fas fa-check-circle"></i> <strong>Бесплатный 15-минутный разбор</strong> с юристом Михаилом.</li>
-                            </ul>
-                        </div>
-
-                        <div class="form-privacy">
-                            <p><i class="fas fa-lock"></i> Ваши данные конфиденциальны. Отправляя форму, вы соглашаетесь на обработку данных для связи.</p>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-submit" id="submitContactBtn">
-                                <i class="fas fa-file-pdf"></i> Получить мой персональный PDF-отчет
-                            </button>
-                            <button type="button" class="btn btn-skip" id="skipContactBtn">
-                                Показать общие результаты (без отчета)
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Результаты расчета -->
-            <div class="results-section" id="resultsSection">
-                <div class="results-header">
-                    <h2><i class="fas fa-scale-balanced"></i> Расчет по банкротству</h2>
-                    <p class="results-subtitle">Сколько можно списать по закону о банкротстве</p>
-                </div>
-
-                <div class="results-grid" id="resultsGrid">
-                    <div class="result-card">
-                        <div class="result-icon" style="background: #e3f2fd;">
-                            <i class="fas fa-money-bill-wave" style="color: #1976d2;"></i>
-                        </div>
-                        <h3>Общая сумма долгов</h3>
-                        <div class="result-value" id="resultTotalDebt">0 ₽</div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-icon" style="background: #f3e5f5;">
-                            <i class="fas fa-calendar-check" style="color: #7b1fa2;"></i>
-                        </div>
-                        <h3>Ежемесячный платеж</h3>
-                        <div class="result-value" id="resultMonthly">0 ₽</div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-icon" style="background: #fff3e0;">
-                            <i class="fas fa-chart-line" style="color: #f57c00;"></i>
-                        </div>
-                        <h3>Переплата за весь срок</h3>
-                        <div class="result-value" id="resultOverpayment">0 ₽</div>
-                    </div>
-                    <div class="result-card highlight">
-                        <div class="result-icon" style="background: #e8f5e9;">
-                            <i class="fas fa-piggy-bank" style="color: #388e3c;"></i>
-                        </div>
-                        <h3>Экономия</h3>
-                        <div class="result-value" id="resultSavings">0 ₽</div>
-                        <p class="result-note">при процедуре банкротства</p>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-back" id="backToQ2"><i class="fas fa-arrow-left"></i> Назад</button>
+                        <button class="btn btn-analyze" id="getResultBtn"><i class="fas fa-stethoscope"></i> Получить разбор</button>
                     </div>
                 </div>
             </div>
 
-            <!-- ПРИЗЫВ К ДЕЙСТВИЮ после расчета -->
-            <div class="cta-section" id="ctaSection" style="display: none;">
-                <div class="cta-banner">
-                    <div class="cta-content">
-                        <h3><i class="fas fa-bullhorn"></i> Не откладывайте решение!</h3>
-                        <p>Каждый месяц вы переплачиваете <strong id="ctaOverpayment">0 ₽</strong>. 
-                        Завтра эта сумма станет еще больше.</p>
-                        <div class="cta-buttons">
-                            <a href="tel:+79281068699" class="cta-btn cta-call" id="phoneLink">
-                                <i class="fas fa-phone"></i> Бесплатный звонок юристу
-                            </a>
-                            <a href="https://t.me/ArcadConsult_bot" class="cta-btn cta-telegram" id="telegramLink" target="_blank">
-                                <i class="fab fa-telegram"></i> Написать в Telegram
-                            </a>
+            <!-- Блок результата (изначально скрыт) -->
+            <div class="result-section" id="resultBlock" style="display: none;">
+                <div class="result-header">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h2>[Имя], вот что показал разбор</h2>
+                </div>
+
+                <div class="result-card diagnosis-card">
+                    <h3><i class="fas fa-diagnoses"></i> Предварительный диагноз</h3>
+                    <p id="diagnosisText">Похоже на спазм трапециевидной мышцы. Это частая проблема у тех, кто много сидит за компьютером. Если не обращать внимания, может перейти в хроническую боль.</p>
+                </div>
+
+                <div class="result-card exercise-card">
+                    <h3><i class="fas fa-dumbbell"></i> Помоги себе сам (3 упражнения)</h3>
+                    <div class="exercise-item">
+                        <span class="exercise-number">1</span>
+                        <div class="exercise-text">
+                            <strong>Наклоны головы с помощью руки</strong>
+                            <p>Сядь ровно, положи правую руку на левое ухо. Медленно наклоняй голову вправо, помогая рукой, пока не почувствуешь натяжение слева. Задержись на 30 сек. Повтори в другую сторону.</p>
                         </div>
-                        <p class="cta-note"><i class="fas fa-clock"></i> Консультация 15 минут • Бесплатно • Без обязательств</p>
                     </div>
+                    <div class="exercise-item">
+                        <span class="exercise-number">2</span>
+                        <div class="exercise-text">
+                            <strong>Пожимания плечами</strong>
+                            <p>На вдохе подними плечи как можно выше к ушам, замри на 5 секунд. На выдохе резко опусти вниз. Повтори 10 раз.</p>
+                        </div>
+                    </div>
+                    <div class="exercise-item">
+                        <span class="exercise-number">3</span>
+                        <div class="exercise-text">
+                            <strong>«Замок» за спиной</strong>
+                            <p>Заведи одну руку за спину сверху, другую снизу. Попробуй сцепить пальцы в замок. Задержись на 20 сек. Поменяй руки.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card cta-card">
+                    <h3><i class="fas fa-hand-holding-heart"></i> Нужна глубокая проработка? Я рядом</h3>
+                    <p>Если боль не проходит или ты хочешь качественно проработать проблему — приходи на массаж. Я сделаю так, чтобы ты забыл о боли надолго.</p>
+                    
+                    <div class="price-block">
+                        <h4>Мои услуги</h4>
+                        <ul>
+                            <li><span>Массаж спины (60 мин)</span> <strong>1700 ₽</strong></li>
+                            <li><span>Общий массаж (90 мин)</span> <strong>2500 ₽</strong></li>
+                            <li><span>Лимфодренажный / Антицеллюлитный</span> <strong>от 2000 ₽</strong></li>
+                            <li><span>Выезд</span> <strong>обговаривается</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="contacts-block">
+                        <h4>Свяжись со мной</h4>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i> <a href="tel:+79281068699">+7 (928) 106-86-99</a> (звонок/WhatsApp)
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-telegram"></i> <a href="https://t.me/maikl_great" target="_blank">@maikl_great</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-instagram"></i> <a href="https://www.instagram.com/maikl_great?igsh=MWRrdXFsbTZkYno2cQ%3D%3D&utm_source=qr" target="_blank">@maikl_great</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-telegram"></i> <a href="https://t.me/Abnormal_masseur" target="_blank">Мой Telegram-канал</a>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-big" id="resetBtn">← Пройти разбор заново</button>
                 </div>
             </div>
 
-            <!-- Блок отчета -->
-            <div class="report-section" id="reportSection" style="display: none;">
-                <div class="report-header">
-                    <h2><i class="fas fa-file-pdf"></i> Отчет по вашим долгам</h2>
-                    <button class="btn-close-report" onclick="hideReport()">
-                        <i class="fas fa-times"></i>
-                    </button>
+            <!-- Блок доверия -->
+            <div class="trust-footer">
+                <div class="trust-badge">
+                    <i class="fas fa-certificate"></i> Диплом массажиста
                 </div>
-                
-                <div class="report-content" id="reportContent">
-                    <!-- Отчет будет здесь -->
+                <div class="trust-badge">
+                    <i class="fas fa-notes-medical"></i> Медкнижка
                 </div>
-                
-                <div class="report-actions">
-                    <button class="btn btn-telegram" onclick="window.open('https://t.me/BankrotHelperBot', '_blank')">
-                        <i class="fab fa-telegram"></i> Telegram
-                    </button>
-                    <button class="btn btn-print" onclick="window.print()">
-                        <i class="fas fa-print"></i> Распечатать
-                    </button>
-                </div>
-            </div>
-
-            <!-- Предложения -->
-            <div class="offers-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-forward"></i> Следующие шаги</h2>
-                    <p class="section-description">На основе расчетов мы можем предложить:</p>
-                </div>
-
-                <div class="offers-grid">
-                    <div class="offer-card free">
-                        <div class="offer-icon">
-                            <i class="fas fa-handshake"></i>
-                        </div>
-                        <h3>Бесплатный разбор</h3>
-                        <p class="offer-description">15-минутная консультация по вашей ситуации с юристом по банкротству</p>
-                        <div class="offer-price">Бесплатно</div>
-                        
-                        <div class="contact-options">
-                            <button class="offer-btn btn-primary" onclick="window.open('https://t.me/BankrotHelperBot', '_blank')">
-                                <i class="fab fa-telegram"></i> Telegram
-                            </button>
-                            <div class="phone-option">
-                                <i class="fas fa-phone"></i>
-                                <a href="tel:+79281068699" class="phone-link">+7 (928) 106-86-99</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="offer-card premium">
-                        <div class="offer-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <h3>Стратегическая сессия</h3>
-                        <p class="offer-description">Полный анализ + план действий (60 минут) с детальным разбором</p>
-                        <div class="offer-price">5 000 ₽</div>
-                        <button class="offer-btn btn-secondary" onclick="window.open('https://t.me/BankrotHelperBot', '_blank')">
-                            <i class="fas fa-calendar-check"></i> Забронировать
-                        </button>
-                    </div>
-
-                    <div class="offer-card report">
-                        <div class="offer-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <h3>Скачать отчет</h3>
-                        <p class="offer-description">PDF с расчетами для самостоятельного изучения и показа юристу</p>
-                        <button class="offer-btn btn-tertiary" onclick="showReport()">
-                            <i class="fas fa-download"></i> Показать отчет
-                        </button>
-                    </div>
+                <div class="trust-badge">
+                    <i class="fas fa-heart"></i> Аномальный подход
                 </div>
             </div>
         </main>
-
-        <!-- Подвал -->
-        <footer class="unified-footer">
-            <div class="footer-grid">
-                <div class="footer-column trust">
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="trust-text">
-                            <strong>Конфиденциально:</strong> ваши данные не сохраняются на сервере
-                        </div>
-                    </div>
-                    
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <div class="trust-text">
-                            <strong>Бесплатный вопрос юристу:</strong> 
-                            <a href="https://t.me/BankrotHelperBot" class="telegram-link" target="_blank">
-                                @BankrotHelperBot
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="trust-text">
-                            <strong>Телефон для связи:</strong>
-                            <a href="tel:+79281068699" class="telegram-link">
-                                +7 (928) 106-86-99
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="success-stats">
-                        <div class="stats-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="stats-content">
-                            <p class="highlight">На основе 1500+ успешных дел о банкротстве</p>
-                            <p class="team-name">Команда юристов «Аркад»</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="footer-column actions">
-                    <div class="action-card">
-                        <div class="action-icon">
-                            <i class="fab fa-telegram"></i>
-                        </div>
-                        <h4>Наш полезный канал</h4>
-                        <p>Актуальные новости, кейсы и инструкции по списанию долгов</p>
-                        <a href="https://t.me/Arcad_help" class="action-btn telegram" target="_blank">
-                            <i class="fab fa-telegram"></i> Перейти в канал
-                        </a>
-                    </div>
-                    
-                    <div class="action-card">
-                        <div class="action-icon">
-                            <i class="fas fa-share-alt"></i>
-                        </div>
-                        <h4>Поделиться ботом</h4>
-                        <p>Помогите друзьям узнать о своих возможностях по списанию долгов</p>
-                        <a href="https://t.me/share/url?url=https://t.me/BankrotHelperBot&text=Бесплатный калькулятор долгов от юристов по банкротству - рассчитай свою выгоду!" 
-                           class="action-btn share" target="_blank">
-                            <i class="fas fa-share-alt"></i> Поделиться в Telegram
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-base">
-                <div class="copyright">
-                    <p><i class="far fa-copyright"></i> 2026 Калькулятор долгов. Все права защищены.</p>
-                    <p class="disclaimer">Расчеты носят информационный характер. Для точного анализа требуется консультация юриста.</p>
-                </div>
-                <div class="footer-links">
-                    <a href="https://t.me/BankrotHelperBot" target="_blank">Телеграм-бот</a>
-                    <a href="tel:+79281068699">Телефон</a>
-                    <a href="https://t.me/Arcad_help" target="_blank">Канал</a>
-                    <a href="#" onclick="alert('Политика конфиденциальности доступна по запросу в боте @BankrotHelperBot')">Конфиденциальность</a>
-                </div>
-            </div>
-        </footer>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
