@@ -51,19 +51,53 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Обработка кнопки "Бесплатный разбор"
-    const analysisBtn = document.querySelector('.free-analysis .btn-primary');
-    if (analysisBtn) {
-        analysisBtn.addEventListener('click', function(e) {
+    // Обработка кнопки "Начать разбор" - теперь открывает модальное окно
+    const analysisButton = document.getElementById('analysisButton');
+    if (analysisButton) {
+        analysisButton.addEventListener('click', function(e) {
             e.preventDefault();
+            
             if (typeof ym !== 'undefined') {
                 ym(METRIKA_ID, 'reachGoal', 'analysis_start');
             }
-            console.log('🔍 Начат бесплатный разбор');
             
-            // Здесь можно открыть модальное окно с опросником
-            alert('Скоро здесь появится опросник! А пока напиши мне в Telegram @maikl_great — я сам всё расскажу.');
-            window.open(MY_TELEGRAM, '_blank');
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <i class="fas fa-telegram"></i>
+                    <h2>Скоро здесь будет опросник!</h2>
+                    <p>А пока напиши мне в Telegram — я сам всё расскажу и подберу упражнения лично для тебя.</p>
+                    <a href="${MY_TELEGRAM}" target="_blank" class="btn btn-primary" style="display: inline-block; margin: 10px;">
+                        <i class="fab fa-telegram"></i> Написать в Telegram
+                    </a>
+                    <button class="btn btn-outline" onclick="this.closest('.modal').remove()">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Закрытие модального окна
+            const closeBtn = modal.querySelector('.close-modal');
+            closeBtn.addEventListener('click', function() {
+                modal.remove();
+            });
+            
+            // Закрытие по клику вне окна
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
         });
     }
+
+    // Добавляем иконки к диплому и медкнижке в шапку (уже есть в HTML)
+    // Добавляем значок для массажа спины (уже есть в HTML)
 });
