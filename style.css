@@ -7,13 +7,12 @@
 
 body {
     font-family: 'Inter', Arial, sans-serif;
-    background: #f8fafc; /* Светлый фон вокруг сайта */
+    background: #f8fafc;
     color: #1e293b;
     line-height: 1.5;
     padding: 20px;
 }
 
-/* Белая карточка-контейнер для всего контента */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -38,6 +37,7 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
+    color: #0f172a;
 }
 
 .logo span {
@@ -59,6 +59,7 @@ body {
     text-decoration: none;
     color: #64748b;
     font-weight: 500;
+    transition: color 0.2s;
 }
 
 .nav-links a:hover {
@@ -155,20 +156,6 @@ body {
     border-color: #1e293b;
 }
 
-.hero-image {
-    background: #f8fafc;
-    border-radius: 24px;
-    padding: 40px;
-    text-align: center;
-    border: 1px solid #e9eef2;
-}
-
-.hero-image i {
-    font-size: 6rem;
-    color: #1e293b;
-    opacity: 0.8;
-}
-
 .badges-row {
     display: flex;
     gap: 20px;
@@ -188,6 +175,110 @@ body {
 
 .badge-item i {
     color: #1e293b;
+}
+
+/* ===== АНИМИРОВАННАЯ КАРТИНКА ===== */
+.hero-image {
+    background: linear-gradient(145deg, #f8fafc, #ffffff);
+    border-radius: 30px;
+    padding: 40px 20px;
+    text-align: center;
+    border: 1px solid #e9eef2;
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-image::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(30, 41, 59, 0.03) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hero-icon-animation {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-icon-animation i {
+    font-size: 4rem;
+    color: #1e293b;
+    position: relative;
+    z-index: 3;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(30, 41, 59, 0.03);
+    animation: pulse 2s ease-out infinite;
+    z-index: 1;
+}
+
+@keyframes pulse {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+    70% {
+        width: 150%;
+        height: 150%;
+        opacity: 0;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+}
+
+.hero-image-text {
+    font-size: 1rem;
+    color: #64748b;
+    margin-top: 20px;
+    position: relative;
+    z-index: 3;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.hero-image::after {
+    content: '•••';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #1e293b;
+    font-size: 0.8rem;
+    letter-spacing: 8px;
+    opacity: 0.3;
 }
 
 /* ===== УСЛУГИ ===== */
@@ -273,13 +364,14 @@ body {
     gap: 6px;
     padding: 8px 0;
     border-top: 1px solid #e9eef2;
+    transition: gap 0.2s;
 }
 
 .service-link:hover {
     gap: 12px;
 }
 
-/* ===== БЛОК "НЕ ЗНАЕШЬ, ЧТО БОЛИТ?" ===== */
+/* ===== БЕСПЛАТНЫЙ РАЗБОР ===== */
 .free-analysis {
     background: #1e293b;
     color: white;
@@ -319,41 +411,51 @@ body {
 .benefits-box {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
 .benefit-item {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 16px;
+    padding: 20px;
     background: rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s;
+}
+
+.benefit-item:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .benefit-icon {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
+    color: white;
 }
 
 .benefit-text {
-    font-size: 1.2rem;
-    font-weight: 600;
+    display: flex;
+    flex-direction: column;
 }
 
-.benefit-text small {
-    font-size: 0.9rem;
-    font-weight: 400;
-    opacity: 0.7;
-    display: block;
-    margin-top: 4px;
+.benefit-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.benefit-label {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 /* ===== ОБО МНЕ ===== */
@@ -426,6 +528,11 @@ body {
     border-radius: 20px;
     text-align: center;
     border: 1px solid #e9eef2;
+    transition: all 0.2s;
+}
+
+.contact-card:hover {
+    border-color: #1e293b;
 }
 
 .contact-card i {
@@ -461,6 +568,15 @@ body {
     padding-top: 40px;
     border-top: 1px solid #e9eef2;
     margin-top: 40px;
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
 }
 
 .footer-links {
@@ -511,10 +627,13 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: all 0.2s;
 }
 
 .floating-button a:hover {
     background: #0f172a;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
@@ -576,25 +695,108 @@ body {
 
 /* ===== АДАПТАЦИЯ ПОД ТЕЛЕФОНЫ ===== */
 @media (max-width: 768px) {
-    body { padding: 10px; }
-    .container { padding: 20px; }
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
     .hero-grid, .analysis-grid, .about-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    .hero-content h1 { font-size: 2.2rem; }
-    .top-bar { flex-direction: column; text-align: center; }
-    .nav-links { justify-content: center; gap: 20px; }
-    .floating-button { right: 20px; bottom: 20px; }
-    .floating-button a { padding: 12px 24px; }
+    
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .top-bar {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .analysis-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .free-analysis {
+        padding: 40px 20px;
+    }
+    
+    .benefit-item {
+        padding: 15px;
+    }
+    
+    .benefit-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .benefit-number {
+        font-size: 1.8rem;
+    }
+    
+    .floating-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .floating-button a {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .hero-buttons { flex-direction: column; }
-    .btn { width: 100%; justify-content: center; }
-    .badges-row, .about-badges { flex-direction: column; }
-    .badge-item, .about-badge { width: 100%; justify-content: center; }
-    .benefit-item { flex-direction: column; text-align: center; }
-    .floating-button { left: 20px; right: 20px; bottom: 20px; }
-    .floating-button a { justify-content: center; }
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .badges-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .about-badges {
+        flex-direction: column;
+    }
+    
+    .badge-item, .about-badge {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .benefit-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .floating-button {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+    }
+    
+    .floating-button a {
+        justify-content: center;
+    }
 }
