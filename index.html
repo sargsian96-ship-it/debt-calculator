@@ -22,10 +22,14 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/106284317" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-    <!-- Шрифты и иконки -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome CDN (подключаем ДО стилей) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Наши стили -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -80,7 +84,6 @@
         <p class="section-subtitle">Все цены указаны за сеанс. Выезд обсуждается отдельно.</p>
 
         <div class="services-grid">
-            <!-- Массаж спины -->
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-spine"></i></div>
                 <h3>Массаж спины</h3>
@@ -89,7 +92,6 @@
                 <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Классический массаж 90 мин -->
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-user"></i></div>
                 <h3>Классический массаж</h3>
@@ -98,7 +100,6 @@
                 <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Шейно-воротниковая зона -->
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-user-md"></i></div>
                 <h3>Шейно-воротниковая зона</h3>
@@ -107,7 +108,6 @@
                 <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Лимфодренажный массаж -->
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-leaf"></i></div>
                 <h3>Лимфодренажный массаж</h3>
@@ -116,7 +116,6 @@
                 <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- Антицеллюлитный массаж -->
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-fist-raised"></i></div>
                 <h3>Антицеллюлитный массаж</h3>
@@ -138,33 +137,31 @@
                 <button class="btn btn-primary" id="analysisButton"><i class="fas fa-stethoscope"></i> Начать разбор</button>
             </div>
             <div class="benefits-box">
-                <div class="benefits-list">
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <div class="benefit-text">
-                            <h3>3 вопроса</h3>
-                            <p>Всего 3 вопроса, чтобы понять твою проблему</p>
-                        </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-question-circle"></i>
                     </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="benefit-text">
-                            <h3>2 минуты</h3>
-                            <p>Разбор займет меньше времени, чем кофе</p>
-                        </div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">3</span>
+                        <span class="benefit-label">вопроса</span>
                     </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <div class="benefit-text">
-                            <h3>100% бесплатно</h3>
-                            <p>Никаких скрытых платежей</p>
-                        </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">2</span>
+                        <span class="benefit-label">минуты</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">100%</span>
+                        <span class="benefit-label">бесплатно</span>
                     </div>
                 </div>
             </div>
