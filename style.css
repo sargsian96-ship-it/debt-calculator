@@ -6,12 +6,12 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #f8fafc;
     line-height: 1.5;
     min-height: 100vh;
-    padding: 0;
+    padding: 20px;
 }
 
 .container {
@@ -19,9 +19,9 @@ body {
     margin: 0 auto;
     background: #ffffff;
     color: #1e293b;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
 /* ===== ШАПКА ===== */
@@ -29,9 +29,6 @@ body {
     background: #ffffff;
     padding: 20px 40px;
     border-bottom: 1px solid #e2e8f0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
 }
 
 .top-bar .container {
@@ -42,6 +39,8 @@ body {
     gap: 20px;
     background: transparent;
     padding: 0;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .logo {
@@ -53,9 +52,9 @@ body {
 .logo span {
     background: #0f172a;
     color: white;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.875rem;
     margin-left: 8px;
 }
 
@@ -70,7 +69,6 @@ body {
     color: #475569;
     font-weight: 500;
     transition: color 0.2s;
-    font-size: 1rem;
 }
 
 .nav-links a:hover {
@@ -79,13 +77,13 @@ body {
 
 .social-header {
     display: flex;
-    gap: 16px;
+    gap: 12px;
 }
 
 .social-header a {
     color: #64748b;
     font-size: 1.2rem;
-    transition: color 0.2s;
+    transition: all 0.2s;
     width: 36px;
     height: 36px;
     display: flex;
@@ -98,6 +96,7 @@ body {
 .social-header a:hover {
     background: #0f172a;
     color: white;
+    transform: translateY(-2px);
 }
 
 /* ===== ГЛАВНЫЙ ЭКРАН ===== */
@@ -114,7 +113,7 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 3.2rem;
+    font-size: 3rem;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 20px;
@@ -125,12 +124,11 @@ body {
     background: #0f172a;
     color: white;
     padding: 6px 16px;
-    border-radius: 6px;
+    border-radius: 100px;
     display: inline-block;
     margin-bottom: 20px;
     font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
+    font-size: 0.875rem;
 }
 
 .hero-content p {
@@ -149,7 +147,7 @@ body {
 
 .btn {
     padding: 14px 28px;
-    border-radius: 8px;
+    border-radius: 100px;
     font-weight: 600;
     text-decoration: none;
     display: inline-flex;
@@ -168,6 +166,8 @@ body {
 
 .btn-primary:hover {
     background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-outline {
@@ -178,11 +178,13 @@ body {
 
 .btn-outline:hover {
     background: #f8fafc;
+    border-color: #0f172a;
+    transform: translateY(-2px);
 }
 
 .hero-image {
     background: #f8fafc;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 40px;
     text-align: center;
     border: 1px solid #e2e8f0;
@@ -191,11 +193,13 @@ body {
 .hero-image i {
     font-size: 6rem;
     color: #0f172a;
+    opacity: 0.8;
 }
 
 .badges-row {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
@@ -207,7 +211,7 @@ body {
     font-size: 0.95rem;
     background: #f8fafc;
     padding: 6px 16px;
-    border-radius: 6px;
+    border-radius: 100px;
     border: 1px solid #e2e8f0;
 }
 
@@ -223,7 +227,7 @@ body {
 
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     margin-bottom: 16px;
     color: #0f172a;
@@ -233,7 +237,7 @@ body {
     text-align: center;
     color: #64748b;
     max-width: 600px;
-    margin: 0 auto 50px;
+    margin: 0 auto 48px;
     font-size: 1.1rem;
 }
 
@@ -245,7 +249,7 @@ body {
 
 .service-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 30px;
     border: 1px solid #e2e8f0;
     transition: all 0.2s;
@@ -314,7 +318,7 @@ body {
 .free-analysis {
     background: #0f172a;
     color: white;
-    padding: 80px 40px;
+    padding: 60px 40px;
 }
 
 .analysis-grid {
@@ -325,7 +329,7 @@ body {
 }
 
 .analysis-content h2 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     margin-bottom: 20px;
     color: white;
@@ -341,7 +345,6 @@ body {
 .analysis-content .btn-primary {
     background: white;
     color: #0f172a;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .analysis-content .btn-primary:hover {
@@ -349,54 +352,55 @@ body {
     transform: translateY(-2px);
 }
 
-/* Новый красивый блок преимуществ */
 .benefits-box {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 40px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.benefits-list {
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .benefit-item {
     display: flex;
     align-items: center;
     gap: 20px;
+    padding: 10px 0;
+}
+
+.benefit-item:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .benefit-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: white;
 }
 
 .benefit-text {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.benefit-text h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 5px;
+.benefit-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
     color: white;
 }
 
-.benefit-text p {
-    font-size: 0.95rem;
+.benefit-label {
+    font-size: 0.9rem;
     opacity: 0.8;
-    margin: 0;
     color: white;
 }
 
@@ -415,7 +419,7 @@ body {
 
 .about-image {
     background: #f8fafc;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 40px;
     text-align: center;
     border: 1px solid #e2e8f0;
@@ -427,7 +431,7 @@ body {
 }
 
 .about-content h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 20px;
     color: #0f172a;
@@ -449,14 +453,13 @@ body {
 .about-badge {
     background: #f8fafc;
     padding: 8px 20px;
-    border-radius: 6px;
+    border-radius: 100px;
     display: flex;
     align-items: center;
     gap: 8px;
     font-weight: 500;
     color: #0f172a;
     border: 1px solid #e2e8f0;
-    font-size: 0.95rem;
 }
 
 .about-badge i {
@@ -479,7 +482,7 @@ body {
 .contact-card {
     background: white;
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 16px;
     text-align: center;
     border: 1px solid #e2e8f0;
     transition: all 0.2s;
@@ -501,7 +504,6 @@ body {
     margin-bottom: 10px;
     color: #0f172a;
     font-weight: 600;
-    font-size: 1.1rem;
 }
 
 .contact-card a {
@@ -509,7 +511,6 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
-    font-size: 1rem;
 }
 
 .contact-card a:hover {
@@ -540,7 +541,6 @@ body {
 .footer-links a {
     color: #64748b;
     text-decoration: none;
-    font-size: 0.95rem;
     transition: color 0.2s;
 }
 
@@ -563,6 +563,34 @@ body {
     color: #0f172a;
 }
 
+/* ===== ПЛАВАЮЩАЯ КНОПКА ===== */
+.floating-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.floating-button a {
+    background: #0f172a;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.floating-button a:hover {
+    background: #1e293b;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal {
     display: none;
@@ -572,7 +600,7 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.5);
     align-items: center;
     justify-content: center;
 }
@@ -580,7 +608,7 @@ body {
 .modal-content {
     background: white;
     padding: 40px;
-    border-radius: 12px;
+    border-radius: 20px;
     max-width: 400px;
     width: 90%;
     text-align: center;
@@ -596,20 +624,15 @@ body {
 .modal-content h2 {
     margin-bottom: 12px;
     color: #0f172a;
-    font-weight: 700;
-    font-size: 1.5rem;
 }
 
 .modal-content p {
     margin-bottom: 25px;
     color: #475569;
-    font-size: 0.95rem;
-    line-height: 1.5;
 }
 
 .modal-content .btn {
     margin: 5px;
-    min-width: 180px;
 }
 
 .close-modal {
@@ -619,45 +642,21 @@ body {
     font-size: 1.8rem;
     cursor: pointer;
     color: #94a3b8;
-    transition: color 0.2s;
 }
 
 .close-modal:hover {
     color: #0f172a;
 }
 
-/* ===== ПЛАВАЮЩАЯ КНОПКА ===== */
-.floating-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-}
-
-.floating-button a {
-    background: #0f172a;
-    color: white;
-    padding: 16px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-    transition: all 0.2s;
-}
-
-.floating-button a:hover {
-    background: #1e293b;
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-}
-
 /* ===== АДАПТАЦИЯ ===== */
 @media (max-width: 768px) {
-    .hero-grid, .analysis-grid, .about-grid {
+    body {
+        padding: 10px;
+    }
+    
+    .hero-grid,
+    .analysis-grid,
+    .about-grid {
         grid-template-columns: 1fr;
         gap: 40px;
     }
@@ -676,22 +675,14 @@ body {
         gap: 20px;
     }
     
-    .analysis-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .benefits-box {
-        width: 100%;
-    }
-    
     .floating-button {
         bottom: 20px;
         right: 20px;
     }
     
     .floating-button a {
-        padding: 14px 24px;
-        font-size: 0.95rem;
+        padding: 12px 24px;
+        font-size: 0.9rem;
     }
 }
 
@@ -726,7 +717,6 @@ body {
     .benefit-item {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
     }
     
     .floating-button {
