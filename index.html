@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Аномальный массаж | Михаил в Шахтах</title>
 
-    <!-- Метрика (можно убрать, если не нужна) -->
+    <!-- Яндекс.Метрика -->
     <script type="text/javascript">
        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
        m[i].l=1*new Date();
        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-       ym(106284317, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+
+       ym(106284317, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/106284317" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-    <!-- Подключаем шрифты, иконки и НОВЫЙ СТИЛЬ -->
+    <!-- Шрифты и иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -26,7 +32,9 @@
 <div class="container">
     <!-- ШАПКА -->
     <div class="top-bar">
-        <div class="logo">Аномальный массаж <span>Михаил</span></div>
+        <div class="logo">
+            Аномальный массаж <span>Михаил</span>
+        </div>
         <div class="nav-links">
             <a href="#services">Услуги</a>
             <a href="#about">Обо мне</a>
@@ -57,7 +65,11 @@
                 </div>
             </div>
             <div class="hero-image">
-                <i class="fas fa-spine"></i>
+                <div class="hero-icon-animation">
+                    <i class="fas fa-spine"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+                <p class="hero-image-text">Аномальный подход к твоему телу</p>
             </div>
         </div>
     </section>
@@ -66,12 +78,47 @@
     <section class="services" id="services">
         <h2 class="section-title">Услуги и цены</h2>
         <p class="section-subtitle">Все цены указаны за сеанс. Выезд обсуждается отдельно.</p>
+
         <div class="services-grid">
-            <div class="service-card"><i class="fas fa-spine service-icon"></i><h3>Массаж спины</h3><div class="service-price">1200 ₽ <small>/ 60 мин</small></div><p class="service-desc">Классический массаж спины: снимаем боль, зажимы, усталость.</p><a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a></div>
-            <div class="service-card"><i class="fas fa-user service-icon"></i><h3>Классический массаж</h3><div class="service-price">1800 ₽ <small>/ 90 мин</small></div><p class="service-desc">Полноценный массаж всего тела: от стоп до головы.</p><a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a></div>
-            <div class="service-card"><i class="fas fa-user-md service-icon"></i><h3>Шейно-воротниковая зона</h3><div class="service-price">700 ₽ <small>/ 30 мин</small></div><p class="service-desc">Снимаем "холку", головные боли, напряжение в плечах.</p><a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a></div>
-            <div class="service-card"><i class="fas fa-leaf service-icon"></i><h3>Лимфодренажный массаж</h3><div class="service-price">1500 ₽ <small>/ 90 мин</small></div><p class="service-desc">Убираем отеки, выводим лишнюю жидкость, дарим легкость.</p><a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a></div>
-            <div class="service-card"><i class="fas fa-fist-raised service-icon"></i><h3>Антицеллюлитный массаж</h3><div class="service-price">2000 ₽ <small>/ 60 мин</small></div><p class="service-desc">Коррекция фигуры, уменьшение объемов, улучшение тонуса кожи.</p><a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a></div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-spine"></i></div>
+                <h3>Массаж спины</h3>
+                <div class="service-price">1200 ₽ <small>/ 60 мин</small></div>
+                <p class="service-desc">Классический массаж спины: снимаем боль, зажимы, усталость.</p>
+                <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-user"></i></div>
+                <h3>Классический массаж</h3>
+                <div class="service-price">1800 ₽ <small>/ 90 мин</small></div>
+                <p class="service-desc">Полноценный массаж всего тела: от стоп до головы.</p>
+                <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-user-md"></i></div>
+                <h3>Шейно-воротниковая зона</h3>
+                <div class="service-price">700 ₽ <small>/ 30 мин</small></div>
+                <p class="service-desc">Снимаем "холку", головные боли, напряжение в плечах.</p>
+                <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-leaf"></i></div>
+                <h3>Лимфодренажный массаж</h3>
+                <div class="service-price">1500 ₽ <small>/ 90 мин</small></div>
+                <p class="service-desc">Убираем отеки, выводим лишнюю жидкость, дарим легкость.</p>
+                <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-fist-raised"></i></div>
+                <h3>Антицеллюлитный массаж</h3>
+                <div class="service-price">2000 ₽ <small>/ 60 мин</small></div>
+                <p class="service-desc">Коррекция фигуры, уменьшение объемов, улучшение тонуса кожи.</p>
+                <a href="tel:+79281068699" class="service-link">Записаться <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </section>
 
@@ -84,9 +131,27 @@
                 <button class="btn btn-primary" id="analysisButton"><i class="fas fa-stethoscope"></i> Начать разбор</button>
             </div>
             <div class="benefits-box">
-                <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-question-circle"></i></div><div class="benefit-text">3 вопроса <small>чтобы понять проблему</small></div></div>
-                <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-clock"></i></div><div class="benefit-text">2 минуты <small>быстрее, чем кофе</small></div></div>
-                <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-gift"></i></div><div class="benefit-text">100% бесплатно <small>без скрытых платежей</small></div></div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-question-circle"></i></div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">3</span>
+                        <span class="benefit-label">вопроса</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-clock"></i></div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">2</span>
+                        <span class="benefit-label">минуты</span>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-gift"></i></div>
+                    <div class="benefit-text">
+                        <span class="benefit-number">100%</span>
+                        <span class="benefit-label">бесплатно</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -94,7 +159,9 @@
     <!-- ОБО МНЕ -->
     <section class="about" id="about">
         <div class="about-grid">
-            <div class="about-image"><i class="fas fa-user-circle"></i></div>
+            <div class="about-image">
+                <i class="fas fa-user-circle"></i>
+            </div>
             <div class="about-content">
                 <h2>Аномальный массажист Михаил</h2>
                 <p>Я не просто делаю массаж — я ищу причины боли там, где другие не смотрят. Мои результаты иногда кажутся аномальными. Диплом, медкнижка, три техники: классика, лимфодренаж, антицеллюлитный.</p>
@@ -111,33 +178,54 @@
     <section class="contacts" id="contacts">
         <h2 class="section-title">Свяжись со мной</h2>
         <p class="section-subtitle">Выбери удобный способ</p>
+
         <div class="contacts-grid">
-            <div class="contact-card"><i class="fas fa-phone"></i><h3>Телефон</h3><a href="tel:+79281068699">+7 (928) 106-86-99</a></div>
-            <div class="contact-card"><i class="fab fa-telegram"></i><h3>Telegram</h3><a href="https://t.me/maikl_great">@maikl_great</a></div>
-            <div class="contact-card"><i class="fab fa-instagram"></i><h3>Instagram</h3><a href="https://www.instagram.com/maikl_great">@maikl_great</a></div>
-            <div class="contact-card"><i class="fab fa-telegram"></i><h3>Канал</h3><a href="https://t.me/Abnormal_masseur">Аномальный массаж</a></div>
+            <div class="contact-card">
+                <i class="fas fa-phone"></i>
+                <h3>Телефон</h3>
+                <a href="tel:+79281068699">+7 (928) 106-86-99</a>
+            </div>
+            <div class="contact-card">
+                <i class="fab fa-telegram"></i>
+                <h3>Telegram</h3>
+                <a href="https://t.me/maikl_great">@maikl_great</a>
+            </div>
+            <div class="contact-card">
+                <i class="fab fa-instagram"></i>
+                <h3>Instagram</h3>
+                <a href="https://www.instagram.com/maikl_great">@maikl_great</a>
+            </div>
+            <div class="contact-card">
+                <i class="fab fa-telegram"></i>
+                <h3>Канал</h3>
+                <a href="https://t.me/Abnormal_masseur">Аномальный массаж</a>
+            </div>
         </div>
     </section>
 
     <!-- ПОДВАЛ -->
     <footer class="footer">
-        <div>© 2026 Аномальный массаж | Михаил</div>
-        <div class="footer-links">
-            <a href="#services">Услуги</a>
-            <a href="#about">Обо мне</a>
-            <a href="#contacts">Контакты</a>
-        </div>
-        <div class="footer-social">
-            <a href="https://t.me/Abnormal_masseur" target="_blank"><i class="fab fa-telegram"></i></a>
-            <a href="https://www.instagram.com/maikl_great" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://t.me/maikl_great" target="_blank"><i class="fab fa-telegram"></i></a>
+        <div class="footer-grid">
+            <div>© 2026 Аномальный массаж | Михаил</div>
+            <div class="footer-links">
+                <a href="#services">Услуги</a>
+                <a href="#about">Обо мне</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://t.me/Abnormal_masseur" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.instagram.com/maikl_great" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://t.me/maikl_great" target="_blank"><i class="fab fa-telegram"></i></a>
+            </div>
         </div>
     </footer>
 </div>
 
 <!-- ПЛАВАЮЩАЯ КНОПКА -->
 <div class="floating-button">
-    <a href="#analysis"><i class="fas fa-stethoscope"></i> Бесплатный разбор</a>
+    <a href="#analysis">
+        <i class="fas fa-stethoscope"></i> Бесплатный разбор
+    </a>
 </div>
 
 <script src="script.js"></script>
