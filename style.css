@@ -177,108 +177,39 @@ body {
     color: #1e293b;
 }
 
-/* ===== АНИМИРОВАННАЯ КАРТИНКА ===== */
+/* ===== ПРОСТАЯ КАРТИНКА (ИСПРАВЛЕННАЯ) ===== */
 .hero-image {
-    background: linear-gradient(145deg, #f8fafc, #ffffff);
-    border-radius: 30px;
+    background: #ffffff;
+    border-radius: 24px;
     padding: 40px 20px;
     text-align: center;
     border: 1px solid #e9eef2;
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
-.hero-image::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(30, 41, 59, 0.03) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.hero-icon-animation {
-    position: relative;
+.hero-icon-circle {
     width: 120px;
     height: 120px;
-    margin: 0 auto 20px;
+    background: #1e293b;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 15px 30px -10px rgba(30, 41, 59, 0.3);
 }
 
-.hero-icon-animation i {
+.hero-icon-circle i {
     font-size: 4rem;
-    color: #1e293b;
-    position: relative;
-    z-index: 3;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.pulse-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: rgba(30, 41, 59, 0.03);
-    animation: pulse 2s ease-out infinite;
-    z-index: 1;
-}
-
-@keyframes pulse {
-    0% {
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-    }
-    70% {
-        width: 150%;
-        height: 150%;
-        opacity: 0;
-    }
-    100% {
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-    }
+    color: white;
 }
 
 .hero-image-text {
     font-size: 1rem;
     color: #64748b;
     margin-top: 20px;
-    position: relative;
-    z-index: 3;
-    letter-spacing: 0.5px;
     font-weight: 500;
-}
-
-.hero-image::after {
-    content: '•••';
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #1e293b;
-    font-size: 0.8rem;
-    letter-spacing: 8px;
-    opacity: 0.3;
+    letter-spacing: 0.3px;
 }
 
 /* ===== УСЛУГИ ===== */
@@ -743,6 +674,15 @@ body {
     
     .benefit-number {
         font-size: 1.8rem;
+    }
+    
+    .hero-icon-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .hero-icon-circle i {
+        font-size: 3rem;
     }
     
     .floating-button {
