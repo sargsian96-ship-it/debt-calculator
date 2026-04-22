@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Аномалия здоровья | Михаил в Шахтах</title>
 
-    <!-- Яндекс.Метрика — ИСПРАВЛЕННЫЙ КОД -->
+    <!-- Яндекс.Метрика — ИСПРАВЛЕННЫЙ КОД С НОВЫМ СЧЁТЧИКОМ 108704585 -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -14,17 +14,17 @@
             k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
         })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-        ym(106284317, "init", {
+        ym(108704585, "init", {
             clickmap: true,
             trackLinks: true,
             accurateTrackBounce: true,
             webvisor: true,
-            ecommerce: "dataLayer"  // добавили для более стабильной работы
+            ecommerce: "dataLayer"
         });
     </script>
     <noscript>
         <div>
-            <img src="https://mc.yandex.ru/watch/106284317" style="position:absolute; left:-9999px;" alt="" />
+            <img src="https://mc.yandex.ru/watch/108704585" style="position:absolute; left:-9999px;" alt="" />
         </div>
     </noscript>
     <!-- /Яндекс.Метрика -->
@@ -305,37 +305,31 @@
 </div>
 
 <script src="script.js"></script>
-<!-- ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА: если вдруг счётчик не загрузился из-за сети, пробуем переинициализировать (без дублирования) -->
+<!-- СТРАХОВКА: дополнительная проверка инициализации с новым номером счётчика -->
 <script>
     (function() {
-        // Убедимся, что счетчик Яндекс.Метрики точно инициализирован даже при медленной загрузке
         if (typeof ym !== 'undefined' && typeof window.ym === 'function') {
-            // Небольшая задержка для гарантии, что счетчик уже создан.
-            // Если по какой-то причине инициализации не произошло, дублируем с тем же номером (без вреда)
-            if (!window['yandex_metrika_callbacks2']) {
-                window['yandex_metrika_callbacks2'] = true;
+            if (!window['yandex_metrika_check_108704585']) {
+                window['yandex_metrika_check_108704585'] = true;
                 try {
-                    // Дополнительная проверка: если метрика не получила хит, можно отправить событие страницы
-                    // Но стандартно код выше уже все сделал, этот блок просто страховка на случай блокировщиков
-                    // Ничего лишнего, просто дублируем инициализацию с защитой от повторного создания.
-                    var existingMetrika = false;
+                    var alreadyExists = false;
                     if (window.ym && window.ym.a && window.ym.a.length) {
                         for (var i = 0; i < window.ym.a.length; i++) {
-                            if (window.ym.a[i] && window.ym.a[i][0] === 106284317) {
-                                existingMetrika = true;
+                            if (window.ym.a[i] && window.ym.a[i][0] === 108704585) {
+                                alreadyExists = true;
                                 break;
                             }
                         }
                     }
-                    if (!existingMetrika) {
-                        ym(106284317, "init", {
+                    if (!alreadyExists) {
+                        ym(108704585, "init", {
                             clickmap: true,
                             trackLinks: true,
                             accurateTrackBounce: true,
                             webvisor: true
                         });
                     }
-                } catch(e) { console.log("Metrika safety check"); }
+                } catch(e) { console.log("Metrika safety check 108704585"); }
             }
         }
     })();
